@@ -1,0 +1,13 @@
+@use "../../styles/partials/variables" as *;
+
+.cursor {
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: $purple-2;
+  background-color: $green;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 100;
+}
