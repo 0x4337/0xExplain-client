@@ -5,17 +5,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 4rem;
+  margin: 2rem 4rem;
 
   &__link {
     text-decoration: none;
-    color: $purple-1;
+    color: $primary-text;
     padding: 0.5rem;
     transition: all 0.2s ease-in-out;
   }
 
   &__link:hover {
-    background-color: $purple-2;
-    color: $off-white;
+    background-color: $off-white-2;
+    color: $black;
   }
 }

@@ -2,26 +2,20 @@
 $desktop: 1280px;
 $tablet: 768px;
 
-// // COLORS
-// $primary-background: #000000;
-// $primary-font: #eaeaea;
-// $primary-contrast: rgb(255, 72, 0);
-
 // COLORS
-// $off-white: #ebebeb;
 $off-white: #eaeaea;
-$black: #2b2b2b;
+$off-white-2: #f6f6f4;
+$white: white;
+$charcoal: #2b2b2b;
 $grey-1: #6c6c6c;
 $grey-2: #747474;
 $grey-3: #919091;
 $grey-4: #acacac;
 $grey-5: #bdbcbd;
-// $purple-1: #746c74;
-// $purple-2: #aca4ac;
-// $purple-1: #2b2b2b;
-// $purple-1: #6c6c6c;
-// $purple-2: #6c6c6c;
-$purple-1: black;
-$purple-2: black;
-// $green: #00ffab;
-$green: rgb(255, 72, 0);
+$black: black;
+$green: #00ffab;
+$orange: rgb(255, 72, 0);
+
+$primary-background: $black;
+$primary-text: $off-white-2;
+$accent: $orange;

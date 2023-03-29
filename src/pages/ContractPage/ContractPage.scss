@@ -1,2 +1,50 @@
 @use "../../styles/partials/variables" as *;
 @use "../../styles//partials//mixins" as *;
+
+.contract {
+  display: flex;
+  flex-direction: column;
+  color: $primary-text;
+  margin: 0 4rem;
+
+  &__titles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  &__circle {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: $accent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__title {
+    font-family: recoleta;
+    font-weight: lighter;
+    display: flex;
+    margin: 0;
+    font-size: 7rem;
+  }
+
+  &__subtitles {
+    display: flex;
+    gap: 2rem;
+  }
+
+  &__subtitle {
+    font-size: 1.5rem;
+    padding: 1rem;
+    border: 1px solid $white;
+  }
+}

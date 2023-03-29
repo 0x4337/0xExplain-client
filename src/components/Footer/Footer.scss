@@ -4,8 +4,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
-  margin: 0 2rem;
+  border: 1px solid $off-white-2;
+  margin: 2rem 4rem;
+  color: $primary-text;
 
   &__text {
     font-size: 1rem;

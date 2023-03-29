@@ -13,7 +13,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: $purple-1;
+    color: $primary-text;
   }
 
   &__titles {
@@ -22,25 +22,25 @@
   }
 
   &__title {
-    font-family: adhesion;
+    font-family: recoleta;
     font-weight: lighter;
     display: flex;
     align-items: flex-end;
     margin: 0;
-    font-size: 10rem;
+    font-size: 15rem;
     padding: 0 2rem;
   }
 
   &__title-0x {
-    // border-bottom: 2px solid $green;
+    // border-bottom: 2px solid $orange;
     // font-family: paris;
   }
 
   &__sidetitle {
     // make the text vertical with the text reading from top the bottom and rotated 180 degrees
 
-    // background-color: $green;
-    border-bottom: 2px solid $green;
+    // background-color: $orange;
+    border-bottom: 1px solid $off-white-2;
     padding: 0.5rem;
     writing-mode: vertical-rl;
     // transform: rotate(180deg);
@@ -52,9 +52,9 @@
   }
 
   &__subtitle > span {
-    background-color: $purple-2;
+    border-bottom: 1px solid $off-white-2;
+
     padding: 0.5rem;
-    color: $off-white;
   }
 }
 
@@ -67,7 +67,7 @@
   margin: 2rem 0;
 
   &__form {
-    border-bottom: 1px solid $purple-1;
+    border-bottom: 1px solid $white;
     width: 100%;
     display: flex;
   }
@@ -79,10 +79,10 @@
   &__input {
     width: 100%;
     padding: 2rem;
-    background-color: $off-white;
+    background-color: transparent;
     outline: none;
     border: none;
-    color: $purple-1;
+    color: $primary-text;
     font-family: lalo;
     opacity: 0.5;
   }
@@ -90,10 +90,10 @@
   &__submit {
     align-self: center;
     font-family: lalo;
-    background-color: $off-white;
+    background-color: transparent;
     border: none;
     outline: none;
-    color: $purple-1;
+    color: $grey-1;
     font-size: 1.5rem;
     padding: 1rem;
     height: 50%;
@@ -102,7 +102,6 @@
   }
 
   &__submit:hover {
-    background-color: $purple-2;
-    color: $off-white;
+    color: $primary-text;
   }
 }
