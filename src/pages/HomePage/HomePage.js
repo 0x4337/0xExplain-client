@@ -2,6 +2,7 @@ import "./HomePage.scss";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import face from "../../assets/images/face_biometrics.mp4";
 
 const HomePage = ({ ETHERSCAN_API_KEY }) => {
   const navigate = useNavigate();
@@ -30,6 +31,12 @@ const HomePage = ({ ETHERSCAN_API_KEY }) => {
 
   return (
     <main className="hero">
+      <div className="face">
+        <video className="face__video" autoPlay loop muted>
+          <source src={face} type="video/mp4" />
+        </video>
+      </div>
+
       <section className="hero__wrapper">
         <div className="hero__titles">
           <h1 className="hero__title">0xExplain</h1>
