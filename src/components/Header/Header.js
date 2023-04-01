@@ -1,6 +1,10 @@
 import "./Header.scss";
 import { Link } from "react-router-dom";
 
+// TODO:
+// 1. Style the header better
+// 2. Make the header fixed
+
 const Header = () => {
   return (
     <header className="header">
