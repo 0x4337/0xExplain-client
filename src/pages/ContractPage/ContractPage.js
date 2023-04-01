@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 // import * as styles from "react-syntax-highlighter/dist/esm/styles/hljs";
 // import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import BeatLoader from "react-spinners/BeatLoader";
 import cube from "../../assets/images/cube.mp4";
 
 import {
@@ -221,6 +222,16 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
 
       <div className="info">
         <h2 className="info__title">Contract Details</h2>
+
+        {Object.keys(contractInfo).length === 0 && (
+          <BeatLoader
+            className="info__loader"
+            color={"#fff"}
+            loading={true}
+            size={10}
+          />
+        )}
+
         <div className="info__wrapper">
           {contractInfo.compilerVersion && (
             <div className="info__item">
