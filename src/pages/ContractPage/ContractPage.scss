@@ -1,6 +1,15 @@
 @use "../../styles/partials/variables" as *;
 @use "../../styles//partials//mixins" as *;
 
+.ball__video {
+  position: absolute;
+  top: -18rem;
+  left: 21rem;
+  z-index: -1;
+
+  filter: blur(5rem) grayscale(100%);
+}
+
 .contract {
   display: flex;
   flex-direction: column;

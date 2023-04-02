@@ -1,0 +1,16 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles//partials/mixins" as *;
+
+.accord {
+  display: flex;
+  flex-direction: column;
+}
+
+.gpt {
+  &__button {
+    padding: 1rem;
+    border: none;
+    font-family: lalo;
+    font-size: 1.6rem;
+  }
+}
