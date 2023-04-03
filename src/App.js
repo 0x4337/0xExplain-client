@@ -13,7 +13,7 @@ import Cursor from "./components/Cursor/Cursor";
 const App = () => {
   const ETHERSCAN_API_KEY = process.env.REACT_APP_ETHERSCAN_API_KEY;
 
-  console.log("ETHERSCAN_API_KEY: ", ETHERSCAN_API_KEY);
+  // console.log("ETHERSCAN_API_KEY: ", ETHERSCAN_API_KEY);
 
   return (
     <BrowserRouter>

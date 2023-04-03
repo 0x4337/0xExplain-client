@@ -1,5 +1,17 @@
 @use "../../styles/partials/variables" as *;
 
+// .cursor {
+//   position: absolute;
+//   width: 2rem;
+//   height: 2rem;
+//   border-radius: 50%;
+//   background-color: $accent;
+//   transform: translate(-50%, -50%);
+//   pointer-events: none;
+//   z-index: 100;
+//   mix-blend-mode: difference;
+// }
+
 .cursor {
   position: absolute;
   width: 2rem;
@@ -10,4 +22,7 @@
   pointer-events: none;
   z-index: 100;
   mix-blend-mode: difference;
+  -webkit-mix-blend-mode: difference;
+  -moz-mix-blend-mode: difference;
+  -ms-mix-blend-mode: difference;
 }

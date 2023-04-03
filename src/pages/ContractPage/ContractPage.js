@@ -9,6 +9,11 @@ import cube from "../../assets/images/cube.mp4";
 import gradient from "../../assets/images/gradientblur.jpg";
 import spray from "../../assets/images/spray.mp4";
 import waves from "../../assets/images/waves.mp4";
+import gem from "../../assets/images/gem.mp4";
+import core from "../../assets/images/core.mp4";
+import gem2 from "../../assets/images/gem2.mp4";
+import diamond from "../../assets/images/diamond.mp4";
+import glasswaves from "../../assets/images/glasswaves.mp4";
 
 import {
   duotoneSea,
@@ -35,7 +40,7 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
   const getExplanation = async (sourceCode) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/openai/contract",
+        "http://localhost:8080/api/openai/generate",
         {
           sourceCode,
         }
@@ -55,16 +60,16 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
    * @returns a formatted string of the contract source code
    */
   const getSourceCode = async () => {
-    console.log(ETHERSCAN_API_KEY);
+    // console.log(ETHERSCAN_API_KEY);
     const { data } = await axios.get(
       `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${contractAddress}&apikey=${ETHERSCAN_API_KEY}`
     );
 
     // LOGGING
-    console.log("DATA BELOW");
-    console.log(data);
-    console.log("SOURCE CODE BELOW");
-    console.log(data.result[0].SourceCode);
+    // console.log("DATA BELOW");
+    // console.log(data);
+    // console.log("SOURCE CODE BELOW");
+    // console.log(data.result[0].SourceCode);
 
     const newContractInfo = {
       contractName: data.result[0].ContractName,
@@ -102,8 +107,8 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
     for (const contract in response.sources) {
       if (contract.toLowerCase().includes(contractName)) {
         const content = response.sources[contract].content;
-        console.log("CONTENT BELOW");
-        console.log(content);
+        // console.log("CONTENT BELOW");
+        // console.log(content);
 
         // FIXME:
         // 1. DONT need to format the response as react syntax highlighting does it for us
@@ -127,8 +132,8 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
       }
     }
 
-    console.log("RESPONSE BELOW");
-    console.log(response);
+    // console.log("RESPONSE BELOW");
+    // console.log(response);
     setAllContracts(response.sources);
   };
 
@@ -142,17 +147,25 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
 
   const createContractAccord = () => {
     if (allContracts) {
-      return Object.keys(allContracts).map((contract) => {
+      return Object.keys(allContracts).map((contract, index) => {
         const content = allContracts[contract].content;
+
         return (
-          <ContractAccord contract={content} getExplanation={getExplanation} />
+          <ContractAccord
+            total={Object.keys(allContracts).length}
+            key={index}
+            number={index + 1}
+            name={contract}
+            contract={content}
+            getExplanation={getExplanation}
+          />
         );
       });
     }
   };
 
-  console.log("ALL CONTRACTS BELOW");
-  console.log(allContracts);
+  // console.log("ALL CONTRACTS BELOW");
+  // console.log(allContracts);
 
   useEffect(() => {
     try {
@@ -169,8 +182,11 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
 
   return (
     <>
-      <video className="ball__video" loop muted>
-        <source src={waves} type="video/mp4" />
+      <video className="gem" loop autoPlay muted>
+        <source src={gem} type="video/mp4" />
+      </video>
+      <video className="core" loop autoPlay muted>
+        <source src={gem2} type="video/mp4" />
       </video>
       <section className="contract">
         <div className="contract__titles">
@@ -270,7 +286,7 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
 
         {createContractAccord()}
 
-        <div className="gpt">
+        {/* <div className="gpt">
           <h2 className="gpt__title">GPT-4 Overview</h2>
           <div className="gpt__wrapper">
             <p className="gpt__text">old explination location</p>
@@ -284,7 +300,7 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
           style={duotoneSea}
         >
           {contract}
-        </SyntaxHighlighter>
+        </SyntaxHighlighter> */}
       </section>
     </>
   );
