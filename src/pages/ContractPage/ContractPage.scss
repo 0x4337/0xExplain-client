@@ -3,10 +3,10 @@
 
 .ball__video {
   position: absolute;
-  top: -18rem;
-  left: 21rem;
+  top: 12rem;
+  left: -55rem;
   z-index: -1;
-
+  transform: rotate(90deg);
   filter: blur(5rem) grayscale(100%);
 }
 

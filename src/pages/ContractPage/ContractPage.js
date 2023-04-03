@@ -24,7 +24,7 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
   const [contract, setContract] = useState(null);
   const [allContracts, setAllContracts] = useState(null);
   const [contractInfo, setContractInfo] = useState({});
-  const [explanation, setExplanation] = useState("");
+  // const [explanation, setExplanation] = useState("");
 
   /**
    * Get the explanation of the contract from the backend by sending the source code of the contract
@@ -114,14 +114,16 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
 
         setContract(content);
 
-        const gptContractString = content.replace(/\n/g, "").replace(/\t/g, "");
+        // const gptContractString = content.replace(/\n/g, "").replace(/\t/g, "");
 
         // console.log(content.length);
         // console.log(formattedResponse.length);
         // console.log(gptContractString.length);
 
-        const explanation = await getExplanation(content);
-        setExplanation(explanation);
+        // TODO:
+        // EXPLANATION TESTING:
+        // const explanation = await getExplanation(content);
+        // setExplanation(explanation);
       }
     }
 
@@ -142,7 +144,9 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
     if (allContracts) {
       return Object.keys(allContracts).map((contract) => {
         const content = allContracts[contract].content;
-        return <ContractAccord contract={content} />;
+        return (
+          <ContractAccord contract={content} getExplanation={getExplanation} />
+        );
       });
     }
   };
@@ -269,7 +273,7 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
         <div className="gpt">
           <h2 className="gpt__title">GPT-4 Overview</h2>
           <div className="gpt__wrapper">
-            <p className="gpt__text">{explanation}</p>
+            <p className="gpt__text">old explination location</p>
           </div>
         </div>
 

@@ -18,11 +18,13 @@ import {
   moonscript,
 } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-const ContractAccord = ({ contract }) => {
-  const [isClicked, setIsClicked] = useState(false);
+const ContractAccord = ({ contract, getExplanation }) => {
+  //   const [isClicked, setIsClicked] = useState(false);
+  const [explanation, setExplanation] = useState("");
 
-  const handleGptClick = () => {
-    setIsClicked(true);
+  const handleGptClick = async () => {
+    const explanation = await getExplanation(contract);
+    setExplanation(explanation);
   };
 
   return (
@@ -51,10 +53,7 @@ const ContractAccord = ({ contract }) => {
             </button>
           </div>
           <Typography fontFamily="lalo" fontSize="1.6rem">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa vel,
-            totam aliquam autem provident unde eligendi corrupti quis qui?
-            Delectus doloremque, possimus distinctio maiores consequuntur
-            quisquam deserunt? Quod, odio voluptatibus?
+            {explanation}
           </Typography>
 
           <SyntaxHighlighter
