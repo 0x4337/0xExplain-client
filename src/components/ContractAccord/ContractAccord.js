@@ -83,7 +83,7 @@ const ContractAccord = ({ name, number, total, contract, getExplanation }) => {
   const updateLoadingState = async (isResponseReceived) => {
     if (isResponseReceived.current) return;
 
-    await sleep(7500);
+    await sleep(10000);
     if (isResponseReceived.current) return;
     setExplanation("Still thinking...");
 
@@ -91,21 +91,21 @@ const ContractAccord = ({ name, number, total, contract, getExplanation }) => {
     if (isResponseReceived.current) return;
     setExplanation("Almost got it...");
 
-    await sleep(10000);
+    await sleep(15000);
     if (isResponseReceived.current) return;
     setExplanation("We actually use GPT-4 unlike some, its just slow...");
 
-    await sleep(10000);
+    await sleep(20000);
     if (isResponseReceived.current) return;
-    setExplanation("Should we just give up?");
+    setExplanation("It'll be worth the wait...");
 
-    await sleep(10000);
+    await sleep(30000);
     if (isResponseReceived.current) return;
-    setExplanation("Ok fine, we'll give up...");
+    setExplanation("We promise...");
 
-    await sleep(10000);
+    await sleep(60000);
     if (isResponseReceived.current) return;
-    setExplanation("Ok, something is definitely wrong... Try again later.");
+    setExplanation("Ok, something is either wrong, or GPT-4 is down...");
   };
 
   const handleGptClick = async () => {

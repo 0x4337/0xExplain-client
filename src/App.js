@@ -35,7 +35,7 @@ const App = () => {
         />
         <Route
           path="/transaction/:transactionHash"
-          element={<TransactionPage />}
+          element={<TransactionPage ETHERSCAN_API_KEY={ETHERSCAN_API_KEY} />}
         />
         <Route path="/wallet/:walletAddress" element={<WalletPage />} />
       </Routes>
