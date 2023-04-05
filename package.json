@@ -13,6 +13,7 @@
     "alchemy-sdk": "^2.6.3",
     "axios": "^1.3.4",
     "dotenv": "^16.0.3",
+    "ethereum-input-data-decoder": "^0.4.2",
     "prismjs": "^1.29.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
