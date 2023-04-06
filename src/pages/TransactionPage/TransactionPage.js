@@ -129,6 +129,8 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [txnStatus, setTxnStatus] = useState("");
   const [contract, setContract] = useState(null);
+  const [decodedInput, setDecodedInput] = useState(null);
+  const [allDataTest, setAllDataTest] = useState(null);
 
   const fetchTransactionData = async () => {
     console.log("fetching transaction data");
@@ -209,20 +211,67 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
 
         // MAYBE for GPT-4 we dont need to parse it, just use the ABI as is (data.result[0].ABI)
         // But for decoding purposes we need to parse it (JSON.parse...)
+        // FIXME:
+        // There are cases when a contracts source code is not verified so it returns just byteCode and not ABI or other data
         const abi = JSON.parse(data.result[0].ABI);
         const decoder = new InputDataDecoder(abi);
 
         const txnInput = txnBasic.data;
         const decodedInput = decoder.decodeData(txnInput);
 
+        // FIXME:
+        // There are cases where the .inputs are not hex codes, but strings
+
         console.log("DECODED INPUT", decodedInput);
         const stringedDecodedInput = JSON.stringify(decodedInput);
 
+        setDecodedInput(decodedInput);
+
         console.log("STINGIFIED INPUT", stringedDecodedInput);
 
-        const decodedInputString = `INPUTS: ${decodedInput.inputs[0]._hex} METHOD: ${decodedInput.method} NAMES: ${decodedInput.names[0]} TYPES: ${decodedInput.types[0]}`;
-        console.log("DECODED INPUT STRING", decodedInputString);
-        return decodedInputString;
+        const abiForGpt = data.result[0].ABI;
+
+        const allData = `
+        CONTRACT SOURCE CODE:
+
+        ${data.result[0].SourceCode}
+
+        ----------------------------
+
+        CONTRACT ABI:
+
+        ${abiForGpt}
+
+        ----------------------------
+
+        DECODED INPUT DATA:
+
+        ${stringedDecodedInput}
+
+        ----------------------------
+
+        `;
+
+        setAllDataTest(allData);
+
+        console.log("ALL DATA", allData);
+
+        try {
+          const { data } = await axios.post(
+            "http://localhost:8080/api/openai/generateInteraction",
+            {
+              allData,
+            }
+          );
+
+          console.log("Generated Summary:", data.explanation);
+        } catch (error) {
+          console.error("Error generating interaction summary:", error);
+        }
+
+        // const decodedInputString = `INPUTS: ${decodedInput.inputs[0]._hex} METHOD: ${decodedInput.method} NAMES: ${decodedInput.names[0]} TYPES: ${decodedInput.types[0]}`;
+        // console.log("DECODED INPUT STRING", decodedInputString);
+        // return decodedInputString;
       } else {
         setContract(null);
       }
@@ -438,6 +487,8 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
               </div>
             )}
           </div>
+
+          <p className="test">{allDataTest}</p>
         </div>
       </section>
     </>
