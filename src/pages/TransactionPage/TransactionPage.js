@@ -194,6 +194,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
   };
 
   console.log("TXN BASIC", txnBasic);
+
   const getContract = async () => {
     if (txnBasic) {
       let isContract = isContractInteraction(txnBasic.data);
@@ -204,6 +205,24 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
         );
 
         setContract(data);
+        console.log(data);
+
+        // MAYBE for GPT-4 we dont need to parse it, just use the ABI as is (data.result[0].ABI)
+        // But for decoding purposes we need to parse it (JSON.parse...)
+        const abi = JSON.parse(data.result[0].ABI);
+        const decoder = new InputDataDecoder(abi);
+
+        const txnInput = txnBasic.data;
+        const decodedInput = decoder.decodeData(txnInput);
+
+        console.log("DECODED INPUT", decodedInput);
+        const stringedDecodedInput = JSON.stringify(decodedInput);
+
+        console.log("STINGIFIED INPUT", stringedDecodedInput);
+
+        const decodedInputString = `INPUTS: ${decodedInput.inputs[0]._hex} METHOD: ${decodedInput.method} NAMES: ${decodedInput.names[0]} TYPES: ${decodedInput.types[0]}`;
+        console.log("DECODED INPUT STRING", decodedInputString);
+        return decodedInputString;
       } else {
         setContract(null);
       }
