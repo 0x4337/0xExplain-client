@@ -14,217 +14,329 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+// const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
+//   const { transactionHash } = useParams();
+//   const [txnBasic, setTxnBasic] = useState(null);
+//   const [txnFull, setTxnFull] = useState(null);
+//   const [contract, setContract] = useState(null);
+//   // const [contractResult, setContractResult] = useState(null);
+//   const [isLoading, setIsLoading] = useState(true);
+
+//   // TRANSACTION STATUS STATE
+//   const [isTxnSuccess, setIsTxnSuccess] = useState(false);
+//   const [isTxnPending, setIsTxnPending] = useState(false);
+//   const [isTxnFailed, setIsTxnFailed] = useState(false);
+//   const [isTxnUnknown, setIsTxnUnknown] = useState(false);
+
+//   const [txnStatus, setTxnStatus] = useState("");
+
+//   const getTxnBasic = async () => {
+//     const { data } = await axios.get(
+//       `http://localhost:8080/api/alchemy/getTxnBasic/${transactionHash}`
+//     );
+
+//     // An endpoint to mock a response from the live API
+//     // const { data } = await axios.get(
+//     //   `http://localhost:8080/api/alchemy/testPending`
+//     // );
+
+//     setTxnBasic(data);
+//   };
+
+//   const getTxnFull = async () => {
+//     const { data } = await axios.get(
+//       `http://localhost:8080/api/alchemy/getTxnFull/${transactionHash}`
+//     );
+
+//     setTxnFull(data);
+//   };
+
+//   const getTxnStatus = () => {
+//     setIsTxnUnknown(false);
+//     setIsTxnPending(false);
+//     setIsTxnSuccess(false);
+//     setIsTxnFailed(false);
+
+//     if (!txnBasic) {
+//       setIsTxnUnknown(true);
+//       setTxnStatus("Unknown");
+//     } else if (!txnFull && txnBasic) {
+//       setIsTxnPending(true);
+//       setTxnStatus("Pending");
+//     } else if (txnFull.status === 1) {
+//       setIsTxnSuccess(true);
+//       setTxnStatus("Success");
+//     } else if (txnFull.status === 0) {
+//       setIsTxnFailed(true);
+//       setTxnStatus("Failed");
+//     } else {
+//       setIsTxnUnknown(true);
+//       setTxnStatus("Unknown");
+//     }
+//   };
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         // setIsLoading(true);
+//         await getTxnBasic();
+//         await getTxnFull();
+//         setIsLoading(false);
+//       } catch (error) {
+//         console.log(error);
+//         setIsLoading(false);
+//       }
+//     };
+
+//     fetchData();
+//   }, []);
+
+//   useEffect(() => {
+//     getTxnStatus();
+//   }, [txnBasic, txnFull]);
+
+//   // useEffect(() => {
+//   //   if (txnFull) {
+//   //     const getContract = async () => {
+//   //       const { data } = await axios.get(
+//   //         `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${txnFull.to}&apikey=${ETHERSCAN_API_KEY}`
+//   //       );
+
+//   //       setContract(data);
+//   //     };
+
+//   //     getContract();
+//   //   }
+//   // }, [txnFull]);
+
+//   useEffect(() => {
+//     const interval = setInterval(async () => {
+//       if (isTxnPending) {
+//         await getTxnBasic();
+//         await getTxnFull();
+//       } else {
+//         clearInterval(interval);
+//       }
+//     }, 4000);
+
+//     return () => clearInterval(interval);
+//   }, [isTxnUnknown, isTxnPending]);
+
 const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
   const { transactionHash } = useParams();
   const [txnBasic, setTxnBasic] = useState(null);
   const [txnFull, setTxnFull] = useState(null);
-  const [contract, setContract] = useState(null);
-  const [contractResult, setContractResult] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
-  // TRANSACTION STATUS STATE
-  const [isTxnSuccess, setIsTxnSuccess] = useState(false);
-  const [isTxnPending, setIsTxnPending] = useState(false);
-  const [isTxnFailed, setIsTxnFailed] = useState(false);
-  const [isTxnUnknown, setIsTxnUnknown] = useState(false);
-
   const [txnStatus, setTxnStatus] = useState("");
+  const [contract, setContract] = useState(null);
 
-  const getTxnBasic = async () => {
-    const { data } = await axios.get(
-      `http://localhost:8080/api/alchemy/getTxnBasic/${transactionHash}`
-    );
+  const fetchTransactionData = async () => {
+    console.log("fetching transaction data");
+    try {
+      const basicResponse = await axios.get(
+        `http://localhost:8080/api/alchemy/getTxnBasic/${transactionHash}`
+      );
 
-    // An endpoint to mock a response from the live API
-    // const { data } = await axios.get(
-    //   `http://localhost:8080/api/alchemy/testPending`
-    // );
+      setTxnBasic(basicResponse.data);
 
-    setTxnBasic(data);
-  };
+      if (basicResponse.data) {
+        const fullResponse = await axios.get(
+          `http://localhost:8080/api/alchemy/getTxnFull/${transactionHash}`
+        );
 
-  const getTxnFull = async () => {
-    const { data } = await axios.get(
-      `http://localhost:8080/api/alchemy/getTxnFull/${transactionHash}`
-    );
-
-    setTxnFull(data);
+        setTxnFull(fullResponse.data);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getTxnStatus = () => {
-    setIsTxnUnknown(false);
-    setIsTxnPending(false);
-    setIsTxnSuccess(false);
-    setIsTxnFailed(false);
-
     if (!txnBasic) {
-      setIsTxnUnknown(true);
       setTxnStatus("Unknown");
     } else if (!txnFull && txnBasic) {
-      setIsTxnPending(true);
       setTxnStatus("Pending");
-    } else if (txnFull.status === 1) {
-      setIsTxnSuccess(true);
+    } else if (txnFull && txnFull.status === 1) {
       setTxnStatus("Success");
-    } else if (txnFull.status === 0) {
-      setIsTxnFailed(true);
+    } else if (txnFull && txnFull.status === 0) {
       setTxnStatus("Failed");
     } else {
-      setIsTxnUnknown(true);
       setTxnStatus("Unknown");
     }
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // setIsLoading(true);
-        await getTxnBasic();
-        await getTxnFull();
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
+    fetchTransactionData();
   }, []);
 
   useEffect(() => {
     getTxnStatus();
   }, [txnBasic, txnFull]);
 
-  // useEffect(() => {
-  //   if (txnFull) {
-  //     const getContract = async () => {
-  //       const { data } = await axios.get(
-  //         `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${txnFull.to}&apikey=${ETHERSCAN_API_KEY}`
-  //       );
+  useEffect(() => {
+    if (txnStatus === "Pending") {
+      const interval = setInterval(() => {
+        fetchTransactionData();
+      }, 4000);
 
-  //       setContract(data);
-  //     };
+      return () => clearInterval(interval);
+    }
+  }, [txnStatus]);
 
-  //     getContract();
-  //   }
-  // }, [txnFull]);
+  const isContractInteraction = (input) => {
+    if (input === "0x") {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  console.log("TXN BASIC", txnBasic);
+  const getContract = async () => {
+    if (txnBasic) {
+      let isContract = isContractInteraction(txnBasic.data);
+
+      if (isContract) {
+        const { data } = await axios.get(
+          `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${txnBasic.to}&apikey=${ETHERSCAN_API_KEY}`
+        );
+
+        setContract(data);
+      } else {
+        setContract(null);
+      }
+    }
+  };
 
   useEffect(() => {
-    const interval = setInterval(async () => {
-      if (isTxnPending) {
-        await getTxnBasic();
-        await getTxnFull();
-      } else {
-        clearInterval(interval);
-      }
-    }, 4000);
+    try {
+      getContract();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [txnBasic]);
 
-    return () => clearInterval(interval);
-  }, [isTxnUnknown, isTxnPending]);
+  // console.log("CONTRACT RESULT IF TO IS A CONTRACT", contract);
 
-  // const getContract = async () => {
-  //   const { data } = await axios.get(
-  //     `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${txnFull.to}&apikey=${ETHERSCAN_API_KEY}`
-  //   );
+  // Checks if the transaction is interacting with a smart contract
+  // First it checks if the transaction is interacting with a smart contract by checking if the input data is 0x or not
+  // If the input data is 0x, then it is not interacting with a smart contract and it returns false
+  // If the input data is not 0x, then it is interacting with a smart contract and it sets the
+  // contractResult state to the result of the API call and returns true
+  // const isContractInteraction = async (address, inputData) => {
+  //   console.log("Checking contract interaction...");
 
-  //   setContract(data);
+  //   if (inputData === "0x") {
+  //     console.log("inputDate is 0x, returning false...");
+
+  //     return false;
+  //   }
+
+  //   try {
+  //     console.log(
+  //       "inputData is NOT 0x, doing GET to etherscan for source code..."
+  //     );
+
+  //     // INFINATE LOOP
+  //     const { data } = await axios.get(
+  //       `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${address}&apikey=${ETHERSCAN_API_KEY}`
+  //     );
+  //     if (data.result[0].SourceCode === "") {
+  //       return false;
+  //     } else {
+  //       setContractResult(data.result[0]);
+  //       return true;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error checking contract interaction:", error);
+  //     return false;
+  //   }
   // };
 
-  // useEffect(() => {
-  //   try {
-  //     getContract();
-  //   } catch (error) {
-  //     console.log("error");
+  // // First it checks if we have the basic transaction data, if we dont it returns null
+  // // Then if we have the basic transaction data, it checks if we have the basic and full transaction data (problems here)
+  // // IsContract is set to the result of the isContractInteraction function which either returns false or returns true
+  // // If isContract is false, then it returns null
+  // // Otherwise we call the etherscan API to get the contract source code again??
+  // // Then we decode the input data we got from the txnBasic state using the ABI we got from the contract source code
+  // // It then sets the decodedInputStrng
+
+  // //
+  // const decodeInput = async () => {
+  //   console.log("Wagwan?");
+  //   if (!txnBasic) {
+  //     return null;
   //   }
-  // }, []);
+  //   // FIXME:
+  //   // 1. txnFull doesnt need to be checked here but it breaks the code if I dont check it
+  //   // 2. It causes a loop of requests to etherscan to get the contract source
+  //   if (txnBasic && txnFull) {
+  //     const isContract = await isContractInteraction(
+  //       txnBasic.to,
+  //       txnBasic.data
+  //     );
+  //     if (!isContract) {
+  //       // The transaction is not interacting with a smart contract
+  //       return null;
+  //     }
+  //     // Proceed with decoding input data using the ABI
 
-  // TODO:
-  // 1. Check if the transaction data is 0x, if so, then it's a normal transaction
-  // 2. If it's not 0x, then it's a contract transaction
-  // 3. If it's a contract transaction, then we need to decode the input data using the interacted contracts ABI
-  // 4. We'll then have the decoded input data, which we can give to GPT-4 to generate a summary of the transaction
-  // 5. We can also display the transaction method on the UI
-
-  // const decodeInput = () => {
-  //   if (contract && txnBasic) {
-  //     const abi = JSON.parse(contract.result[0].ABI);
+  //     // FIXME:
+  //     // 1. Can't i use the isContractInteractions invocation of the API to get the ABI instead of making another call?
+  //     // 2. Maybe not because it puts it in state
+  //     const { data } = await axios.get(
+  //       `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${txnBasic.to}&apikey=${ETHERSCAN_API_KEY}`
+  //     );
+  //     const abi = JSON.parse(data.result[0].ABI);
   //     const decoder = new InputDataDecoder(abi);
 
   //     const txnInput = txnBasic.data;
   //     const decodedInput = decoder.decodeData(txnInput);
 
-  //     return decodedInput;
+  //     const decodedInputString = `INPUTS: ${decodedInput.inputs[0]} METHOD: ${decodedInput.method} NAMES: ${decodedInput.names[0]} TYPES: ${decodedInput.types[0]}`;
+  //     return decodedInputString;
   //   }
   // };
 
-  const isContractInteraction = async (address, inputData) => {
-    // FIXME:
-    // Its highly likley that if 0x is the input data,
-    // then the transaction is not interacting with a smart contract
+  // // FIXME: MY VERSION
+  // // useEffect(() => {
+  // //   if (txnBasic) {
+  // //     // const decodedInput = decodeInput();
+  // //     // console.log("Decoded Input:", decodedInput);
+  // //     decodeInput();
+  // //   }
+  // // }, [txnBasic]);
 
-    if (inputData === "0x") {
-      return false;
-    }
-    try {
-      const { data } = await axios.get(
-        `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${address}&apikey=${ETHERSCAN_API_KEY}`
-      );
-      if (data.result[0].SourceCode === "") {
-        return false;
-      } else {
-        setContractResult(data.result[0]);
-        return true;
-      }
-    } catch (error) {
-      console.error("Error checking contract interaction:", error);
-      return false;
-    }
-  };
+  // // FIXME: GPT VERSION
+  // useEffect(() => {
+  //   const decodeAndProcessInput = async () => {
+  //     if (txnBasic) {
+  //       await decodeInput();
+  //     }
+  //   };
+  //   try {
+  //     decodeAndProcessInput();
+  //   } catch (error) {}
+  //   // }, [txnBasic, contractResult]);
+  // }, [txnBasic]);
 
-  const decodeInput = async () => {
-    if (txnBasic && txnFull) {
-      const isContract = await isContractInteraction(
-        txnBasic.to,
-        txnBasic.data
-      );
-      if (!isContract) {
-        // The transaction is not interacting with a smart contract
-        return null;
-      }
+  // // TODO:
+  // // 1. Now we have the decoded input data and the contract source code + ABI we
+  // // can now generate a summary of the transaction using GPT-4
 
-      // Proceed with decoding input data using the ABI
-      const { data } = await axios.get(
-        `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${txnBasic.to}&apikey=${ETHERSCAN_API_KEY}`
-      );
-      const abi = JSON.parse(data.result[0].ABI);
-      const decoder = new InputDataDecoder(abi);
+  // // FIXME:
+  // // 1. The SourceCode needs formatting
+  // // 2. and maybe the ABI needs formatting
 
-      const txnInput = txnBasic.data;
-      const decodedInput = decoder.decodeData(txnInput);
+  // if (!contractResult) {
+  //   console.log("No contract result");
+  //   <p>Loading...</p>;
+  // }
 
-      const decodedInputString = `INPUTS: ${decodedInput.inputs[0]} METHOD: ${decodedInput.method} NAMES: ${decodedInput.names[0]} TYPES: ${decodedInput.types[0]}`;
-      return decodedInputString;
-    }
-  };
-
-  useEffect(() => {
-    if (txnBasic) {
-      // const decodedInput = decodeInput();
-      // console.log("Decoded Input:", decodedInput);
-      decodeInput();
-    }
-  }, [txnBasic]);
-
-  // TODO:
-  // 1. Now we have the decoded input data and the contract source code + ABI we
-  // can now generate a summary of the transaction using GPT-4
-
-  // FIXME:
-  // 1. The SourceCode needs formatting
-  // 2. The ABI needs formatting
-
-  // console.log(contractResult);
-  // const allData = `
+  // const allData = contractResult
+  //   ? `
   // CONTRACT SOURCE CODE:
   // ${contractResult.SourceCode}
 
@@ -233,8 +345,10 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
 
   // DECODED INPUT DATA:
   // ${decodeInput()}
-  // `;
+  // `
+  //   : "";
 
+  // console.log(contractResult);
   // console.log(allData);
 
   // const generateInteractionSummary = async () => {
@@ -284,7 +398,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
               <p className="status__sub">Status •</p>
               {isLoading && (
                 <>
-                  <p className="status__text">Loading</p>
+                  <p className="status__text">Checking</p>
                   <BounceLoader
                     className="status__icon"
                     color="#fff"
@@ -297,7 +411,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
           </div>
 
           <div className="pregas">
-            {isTxnSuccess && (
+            {txnStatus === "Success" && (
               <div className="pregas__wrapper">
                 <p className="pregas__sub">Max Gas Fee •</p>
                 {/* {maxGas && <p className="pregas__text">{maxGas}</p>} */}
