@@ -8,7 +8,7 @@
   flex-direction: column;
   color: $primary-text;
   margin: 0 4rem;
-  gap: 5rem;
+  gap: 3rem;
   position: relative;
 
   &__graphic {
@@ -77,9 +77,22 @@
 }
 
 .status {
+  display: flex;
+  justify-content: center;
+
   &__wrapper {
     display: flex;
     align-items: center;
+    background-color: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgb(55 55 55);
+    padding: 0 2rem;
+    transition: all 0.2s linear;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.7);
+      border: 1px solid rgb(99, 99, 99);
+      scale: 1.025;
+    }
   }
 
   &__sub {
@@ -105,6 +118,112 @@
   &__sub {
     opacity: 0.5;
     border-left: 1px solid $white;
+    padding: 0 1rem;
+  }
+}
+
+.basic {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgb(55 55 55);
+  padding: 0 2rem;
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__item {
+    display: flex;
+  }
+
+  &__sub {
+    opacity: 0.5;
+    border-left: 1px solid white;
+    padding: 0 1rem;
+  }
+
+  &__text {
+    text-decoration: none;
+    color: $primary-text;
+  }
+
+  &__parties {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__to {
+  }
+
+  &__contract {
+    display: flex;
+    align-items: center;
+  }
+
+  &__to-content {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__disclaimer {
+    display: flex;
+    align-items: center;
+    opacity: 0.5;
+    gap: 0.5rem;
+  }
+
+  &__icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  &__text--contract {
+    text-decoration: underline;
+  }
+
+  &__from {
+  }
+}
+
+.gas {
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__sent {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgb(55 55 55);
+    padding: 0 2rem;
+    width: 50%;
+  }
+
+  &__used {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgb(55 55 55);
+    padding: 0 2rem;
+    width: 50%;
+  }
+
+  &__title {
+    border-left: 1px solid white;
+    border-left: 1px solid white;
+    font-weight: lighter;
+    padding: 0 1rem;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__sub {
+    opacity: 0.5;
+    border-left: 1px solid white;
     padding: 0 1rem;
   }
 }
