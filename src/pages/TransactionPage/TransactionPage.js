@@ -1,5 +1,7 @@
 import "./TransactionPage.scss";
 import burst from "../../assets/images/burst.png";
+import burst2 from "../../assets/images/burst2.png";
+import burst3 from "../../assets/images/burst3.png";
 import galaxystar from "../../assets/images/galaxystar.mp4";
 import ethereumIcon from "../../assets/images/ethereum-icon.svg";
 import ethereumIcon2 from "../../assets/images/ethereum-icon-2.svg";
@@ -12,6 +14,10 @@ import successTick from "../../assets/images/success-tick.svg";
 // const InputDataDecoder = require("ethereum-input-data-decoder");
 import InputDataDecoder from "ethereum-input-data-decoder";
 import contractIcon from "../../assets/images/contract.svg";
+import sand from "../../assets/images/sand.gif";
+import worm from "../../assets/images/worm.gif";
+import quantball from "../../assets/images/quantball.jpg";
+import glasswaves from "../../assets/images/glasswaves.mp4";
 
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -303,10 +309,13 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
   return (
     <>
       <section className="txn">
-        <video className="txn__graphic" loop muted>
+        {/* <video className="txn__graphic" loop muted>
           <source src={gem2} type="video/mp4" />
-        </video>
-        {/* <img src={artifactWave} alt="graphic" className="txn__wave" /> */}
+        </video> */}
+
+        <img src={burst} alt="graphic" className="txn__burst" />
+        {/* <img src={burst2} alt="graphic" className="txn__burst2" /> */}
+        {/* <img src={sand} alt="graphic" className="txn__sand" /> */}
 
         <div className="txn__titles">
           <div className="txn__top">

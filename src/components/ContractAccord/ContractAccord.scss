@@ -19,10 +19,12 @@
     border: none;
     font-family: lalo;
     font-size: 1.6rem;
-    border: 1px solid $white;
-    background: transparent;
     color: $primary-text;
     transition: all 0.2s ease-in-out;
+    border: 1px solid rgb(55 55 55);
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(0.4rem);
+    -webkit-backdrop-filter: blur(0.4rem);
 
     &:hover {
       background-color: $off-white-2;
