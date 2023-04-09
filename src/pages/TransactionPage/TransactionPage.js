@@ -30,6 +30,9 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
   const [contract, setContract] = useState(null);
   const [decodedInput, setDecodedInput] = useState(null);
   const [txnExplination, setTxnExplination] = useState(null);
+  const [isLegacyTransaction, setIsLegacyTransaction] = useState(false);
+  const [value, setValue] = useState(0);
+  const [isRerolling, setIsRerolling] = useState(false);
 
   const fetchTransactionData = async () => {
     console.log("fetching transaction data");
@@ -40,40 +43,32 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
 
       setTxnBasic(basicResponse.data);
 
-      // FIXME:
-      // Some transactions do not include maxPriorityFeePerGas and maxFeePerGas which causes the app to crash
-      // Need to handle this case
-      // const gasPriceInGwei = parseFloat(
-      //   formatUnits(basicResponse.data.gasPrice.hex, "gwei")
-      // ).toFixed(2);
-      // const maxPriorityFeePerGasInGwei = parseFloat(
-      //   formatUnits(basicResponse.data.maxPriorityFeePerGas.hex, "gwei")
-      // ).toFixed(2);
-      // const maxFeePerGasInGwei = parseFloat(
-      //   formatUnits(basicResponse.data.maxFeePerGas.hex, "gwei")
-      // ).toFixed(2);
-      // const gasLimitInGwei = parseFloat(
-      //   formatUnits(basicResponse.data.gasLimit.hex, "wei")
-      // );
-      // setBasicGas({
-      //   gasPriceInGwei,
-      //   maxPriorityFeePerGasInGwei,
-      //   maxFeePerGasInGwei,
-      //   gasLimitInGwei,
-      // });
+      const valueInEth = Number(
+        parseFloat(formatUnits(basicResponse.data.value.hex, "ether")).toFixed(
+          2
+        )
+      );
 
-      const gasPriceInGwei = parseFloat(
-        formatUnits(basicResponse.data.gasPrice.hex, "gwei")
-      ).toFixed(2);
+      setValue(valueInEth);
+
+      const gasPriceInGwei = Number(
+        parseFloat(
+          formatUnits(basicResponse.data.gasPrice.hex, "gwei")
+        ).toFixed(2)
+      );
       const maxPriorityFeePerGasInGwei = basicResponse.data.maxPriorityFeePerGas
-        ? parseFloat(
-            formatUnits(basicResponse.data.maxPriorityFeePerGas.hex, "gwei")
-          ).toFixed(2)
+        ? Number(
+            parseFloat(
+              formatUnits(basicResponse.data.maxPriorityFeePerGas.hex, "gwei")
+            ).toFixed(2)
+          )
         : 0; // Default value when not available
       const maxFeePerGasInGwei = basicResponse.data.maxFeePerGas
-        ? parseFloat(
-            formatUnits(basicResponse.data.maxFeePerGas.hex, "gwei")
-          ).toFixed(2)
+        ? Number(
+            parseFloat(
+              formatUnits(basicResponse.data.maxFeePerGas.hex, "gwei")
+            ).toFixed(2)
+          )
         : 0; // Default value when not available
       const gasLimitInGwei = parseFloat(
         formatUnits(basicResponse.data.gasLimit.hex, "wei")
@@ -85,6 +80,11 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
         gasLimitInGwei,
       });
 
+      setIsLegacyTransaction(
+        !basicResponse.data.maxPriorityFeePerGas ||
+          !basicResponse.data.maxFeePerGas
+      );
+
       if (basicResponse.data) {
         const fullResponse = await axios.get(
           `http://localhost:8080/api/alchemy/getTxnFull/${transactionHash}`
@@ -92,23 +92,29 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
 
         setTxnFull(fullResponse.data);
 
-        // const gasUsedInGwei = parseFloat(
-        //   formatUnits(fullResponse.data.gasUsed.hex, "wei")
-        // );
+        const gasUsedInGwei = Number(
+          parseFloat(formatUnits(fullResponse.data.gasUsed.hex, "wei")).toFixed(
+            2
+          )
+        );
 
-        // const cumulativeGasUsedInGwei = parseFloat(
-        //   formatUnits(fullResponse.data.cumulativeGasUsed.hex, "wei")
-        // );
+        const cumulativeGasUsedInGwei = Number(
+          parseFloat(
+            formatUnits(fullResponse.data.cumulativeGasUsed.hex, "wei")
+          ).toFixed(2)
+        );
 
-        // const effectiveGasPriceInGwei = parseFloat(
-        //   formatUnits(fullResponse.data.effectiveGasPrice.hex, "gwei")
-        // );
+        const effectiveGasPriceInGwei = Number(
+          parseFloat(
+            formatUnits(fullResponse.data.effectiveGasPrice.hex, "gwei")
+          ).toFixed(2)
+        );
 
-        // setFullGas({
-        //   gasUsedInGwei,
-        //   cumulativeGasUsedInGwei,
-        //   effectiveGasPriceInGwei,
-        // });
+        setFullGas({
+          gasUsedInGwei,
+          cumulativeGasUsedInGwei,
+          effectiveGasPriceInGwei,
+        });
       }
     } catch (error) {
       console.log(error);
@@ -160,7 +166,13 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
   console.log("TXN BASIC", txnBasic);
   console.log("TXN FULL", txnFull);
 
-  const getContract = async () => {
+  const getContract = async (promptIndex = null) => {
+    if (!promptIndex) {
+      promptIndex = Math.floor(Math.random() * 9);
+    }
+
+    setIsRerolling(true);
+
     if (txnBasic) {
       let isContract = isContractInteraction(txnBasic.data);
 
@@ -250,19 +262,21 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
 
         console.log("ALL DATA", allData);
 
-        // try {
-        //   const { data } = await axios.post(
-        //     "http://localhost:8080/api/openai/generateInteraction",
-        //     {
-        //       allData,
-        //     }
-        //   );
+        try {
+          const { data } = await axios.post(
+            "http://localhost:8080/api/openai/generateInteraction",
+            {
+              allData,
+              promptIndex, // Send the prompt index
+            }
+          );
 
-        //   console.log("Generated Summary:", data.explanation);
-        //   setTxnExplination(data.explanation);
-        // } catch (error) {
-        //   console.error("Error generating interaction summary:", error);
-        // }
+          console.log("Generated Summary:", data.explanation);
+          setTxnExplination(data.explanation);
+          setIsRerolling(false);
+        } catch (error) {
+          console.error("Error generating interaction summary:", error);
+        }
 
         const decodedInputString = `INPUTS: ${decodedInput.inputs[0]._hex} METHOD: ${decodedInput.method} NAMES: ${decodedInput.names[0]} TYPES: ${decodedInput.types[0]}`;
         console.log("DECODED INPUT STRING", decodedInputString);
@@ -279,16 +293,20 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
     } catch (error) {
       console.log(error);
     }
-  }, [txnBasic]);
+  }, [txnFull]);
+
+  const handleReroll = () => {
+    const promptIndex = Math.floor(Math.random() * 8);
+    getContract(promptIndex);
+  };
 
   return (
     <>
       <section className="txn">
-        {/* <img src={artifactWave} alt="graphic" className="txn__wave" /> */}
-
         <video className="txn__graphic" loop muted>
           <source src={gem2} type="video/mp4" />
         </video>
+        {/* <img src={artifactWave} alt="graphic" className="txn__wave" /> */}
 
         <div className="txn__titles">
           <div className="txn__top">
@@ -309,23 +327,48 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
 
         <div className="status">
           <div className="status__wrapper">
-            <p className="status__sub">Status •</p>
-            {isLoading && (
-              <>
-                <p className="status__text">Checking</p>
-                <PuffLoader className="status__icon" color="#fff" size={20} />
-              </>
-            )}
-            {/* {!isLoading && <p className="status__text">{txnStatus}</p>} */}
-            {!isLoading && txnStatus === "Pending" && (
-              <>
+            <div className="status__item">
+              <p className="status__sub">Status •</p>
+              {isLoading && (
+                <>
+                  <p className="status__text">Checking</p>
+                  <PuffLoader className="status__icon" color="#fff" size={20} />
+                </>
+              )}
+              {/* {!isLoading && <p className="status__text">{txnStatus}</p>} */}
+              {!isLoading && txnStatus === "Pending" && (
+                <>
+                  <p className="status__text">{txnStatus}</p>
+                  <BounceLoader
+                    className="status__icon"
+                    color="#fff"
+                    size={15}
+                  />
+                </>
+              )}
+              {!isLoading && txnStatus !== "Pending" && (
                 <p className="status__text">{txnStatus}</p>
-                <BounceLoader className="status__icon" color="#fff" size={15} />
-              </>
-            )}
-            {!isLoading && txnStatus !== "Pending" && (
-              <p className="status__text">{txnStatus}</p>
-            )}
+              )}
+            </div>
+
+            <div className="status__item">
+              <p className="status__sub">Method •</p>
+              {/* {txnBasic && decodedInput.method && (
+                <p className="input__text">{decodedInput.method}</p>
+              )} */}
+              {/* <p className="input__text">{decodedInput}</p> */}
+              {!txnBasic && <BeatLoader color="#fff" size={5} />}
+              {txnBasic && decodedInput && (
+                <p className="status__text">{decodedInput.method}</p>
+              )}
+              {!decodedInput && <p className="status__text">Transfer</p>}
+            </div>
+
+            <div className="status__item">
+              <p className="status__sub">Value •</p>
+              {!txnBasic && <BeatLoader color="#fff" size={5} />}
+              {txnBasic && <p className="status__text">{value} ETH</p>}
+            </div>
           </div>
         </div>
 
@@ -333,8 +376,10 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
           <div className="basic__details">
             <div className="basic__item">
               <p className="basic__sub">Block Number •</p>
-              {txnBasic && (
-                <p className="basic__text">{txnBasic.blockNumber}</p>
+              {txnBasic && !txnBasic.blockNumber ? (
+                <BeatLoader color="#fff" size={5} />
+              ) : (
+                txnBasic && <p>{txnBasic.blockNumber}</p>
               )}
             </div>
             <div className="basic__item">
@@ -345,8 +390,10 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
             </div>
             <div className="basic__item">
               <p className="basic__sub">Transaction Index •</p>
-              {txnBasic && (
-                <p className="basic__text">{txnBasic.transactionIndex}</p>
+              {txnBasic && !txnBasic.transactionIndex ? (
+                <BeatLoader color="#fff" size={5} />
+              ) : (
+                txnBasic && <p>{txnBasic.transactionIndex}</p>
               )}
             </div>
           </div>
@@ -379,7 +426,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
               )}
 
               {!contract && txnBasic && (
-                <p className="basic__text">{txnBasic.to}</p>
+                <p className="basic__text basic__text--wallet">{txnBasic.to}</p>
               )}
 
               {!txnBasic && <BeatLoader color="#fff" size={5} />}
@@ -394,11 +441,11 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
 
         <div className="gas">
           <div className="gas__wrapper">
-            <div className="gas__sent">
+            {/* <div className="gas__sent">
               <h3 className="gas__title">Gas Sent</h3>
               <div className="gas__item">
                 <p className="gas__sub">Max Gas Fee •</p>
-                {txnBasic && (
+                {txnBasic && basicGas.maxFeePerGasInGwei && (
                   <p className="gas__text">
                     {basicGas.maxFeePerGasInGwei} Gwei
                   </p>
@@ -407,7 +454,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
               </div>
               <div className="gas__item">
                 <p className="gas__sub">Max Priority Fee •</p>
-                {txnBasic && (
+                {txnBasic && basicGas.maxPriorityFeePerGasInGwei && (
                   <p className="gas__text">
                     {basicGas.maxPriorityFeePerGasInGwei} Gwei
                   </p>
@@ -421,14 +468,74 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
                 )}
                 {!txnBasic && <BeatLoader color="#fff" size={5} />}
               </div>
+            </div> */}
+
+            <div className="gas__sent">
+              <div className="gas__legacy">
+                <h3 className="gas__title">Gas Sent</h3>
+                {isLegacyTransaction && (
+                  <p className="gas__legacy-warn">
+                    Legacy Transaction Detected
+                  </p>
+                )}
+              </div>
+              {!isLegacyTransaction && (
+                <>
+                  <div className="gas__item">
+                    <p className="gas__sub">Max Gas Fee •</p>
+                    {txnBasic && basicGas.maxFeePerGasInGwei && (
+                      <p className="gas__text">
+                        {basicGas.maxFeePerGasInGwei} Gwei
+                      </p>
+                    )}
+                    {!txnBasic && <BeatLoader color="#fff" size={5} />}
+                  </div>
+                  <div className="gas__item">
+                    <p className="gas__sub">Max Priority Fee •</p>
+                    {txnBasic && basicGas.maxPriorityFeePerGasInGwei && (
+                      <p className="gas__text">
+                        {basicGas.maxPriorityFeePerGasInGwei} Gwei
+                      </p>
+                    )}
+                    {!txnBasic && <BeatLoader color="#fff" size={5} />}
+                  </div>
+                </>
+              )}
+              {isLegacyTransaction && (
+                <div className="gas__item">
+                  <p className="gas__sub">Gas Fee (Pre EIP-1559) •</p>
+                  {txnBasic && (
+                    <p className="gas__text">{basicGas.gasPriceInGwei} Gwei</p>
+                  )}
+                  {!txnBasic && <BeatLoader color="#fff" size={5} />}
+                </div>
+              )}
+
+              <div className="gas__item">
+                <p className="gas__sub">Gas Limit •</p>
+                {txnBasic && (
+                  <p className="gas__text">{basicGas.gasLimitInGwei}</p>
+                )}
+                {!txnBasic && <BeatLoader color="#fff" size={5} />}
+              </div>
             </div>
 
-            {/* <div className="gas__used">
+            <div className="gas__used">
               <h3 className="gas__title">Gas Used</h3>
               <div className="gas__item">
                 <p className="gas__sub">Gas Limit Used •</p>
                 {txnFull && (
-                  <p className="gas__text">{fullGas.gasUsedInGwei}</p>
+                  <>
+                    <p className="gas__text">{fullGas.gasUsedInGwei}</p>
+                    <p className="gas__percent">
+                      (
+                      {(
+                        (fullGas.gasUsedInGwei / basicGas.gasLimitInGwei) *
+                        100
+                      ).toFixed(2)}
+                      %)
+                    </p>
+                  </>
                 )}
                 {!txnFull && <BeatLoader color="#fff" size={5} />}
               </div>
@@ -448,21 +555,74 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
                 )}
                 {!txnFull && <BeatLoader color="#fff" size={5} />}
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
 
-        {/* <div className="pregas">
-            {txnStatus === "Success" && (
-              <div className="pregas__wrapper">
-                <p className="pregas__sub">Max Gas Fee •</p>
-                {maxGas && <p className="pregas__text">{maxGas}</p>} 
-                <p className="pregas__text">Gas</p>
-              </div>
-            )}
-          </div>
+        {contract && (
+          <div className="explain">
+            <h2 className="explain__title">Explain</h2>
 
-          {!contract && <p className="txn__text">Not a contract interaction</p>} */}
+            <div className="explain__wrapper">
+              {/* {txnExplination && (
+                <>
+                  <pre className="explain__response">
+                    <code
+                      className="explain__code"
+                      dangerouslySetInnerHTML={{ __html: txnExplination }}
+                    />
+                  </pre>
+
+                  <button onClick={handleReroll} className="explain__reroll">
+                    Reroll
+                  </button>
+                </>
+              )} */}
+
+              {isRerolling ? (
+                <BeatLoader
+                  className="explain__loader"
+                  color="#fff"
+                  size={7.5}
+                />
+              ) : (
+                <>
+                  {txnExplination && (
+                    <>
+                      <pre className="explain__response">
+                        <code
+                          className="explain__code"
+                          dangerouslySetInnerHTML={{ __html: txnExplination }}
+                        />
+                      </pre>
+
+                      <button
+                        onClick={handleReroll}
+                        className="explain__reroll"
+                      >
+                        Click To Re-Analyise
+                      </button>
+                    </>
+                  )}
+                </>
+              )}
+              {/* 
+              {!txnExplination && (
+                <BeatLoader
+                  className="explain__loader"
+                  color="#fff"
+                  size={7.5}
+                />
+              )} */}
+              {!txnExplination && !txnFull && (
+                <p className="explain__wait">
+                  Waiting for transaction to settle before attempting to
+                  analyise.
+                </p>
+              )}
+            </div>
+          </div>
+        )}
       </section>
     </>
   );

@@ -1,7 +1,5 @@
 @use "../../styles/partials/variables" as *;
 @use "../../styles/partials/mixins" as *;
-@use "../../styles/partials/variables" as *;
-@use "../../styles//partials//mixins" as *;
 
 .txn {
   display: flex;
@@ -83,16 +81,16 @@
   &__wrapper {
     display: flex;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.45);
+    background-color: rgba(0, 0, 0, 0.8);
     border: 1px solid rgb(55 55 55);
     padding: 0 2rem;
-    transition: all 0.2s linear;
+    gap: 4rem;
+  }
 
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.7);
-      border: 1px solid rgb(99, 99, 99);
-      scale: 1.025;
-    }
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
 
   &__sub {
@@ -137,6 +135,7 @@
 
   &__item {
     display: flex;
+    align-items: center;
   }
 
   &__sub {
@@ -148,6 +147,10 @@
   &__text {
     text-decoration: none;
     color: $primary-text;
+  }
+
+  &__text--wallet {
+    margin: 0;
   }
 
   &__parties {
@@ -191,7 +194,17 @@
 .gas {
   &__wrapper {
     display: flex;
-    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  &__legacy {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+
+    &-warn {
+      opacity: 0.5;
+    }
   }
 
   &__sent {
@@ -225,5 +238,92 @@
     opacity: 0.5;
     border-left: 1px solid white;
     padding: 0 1rem;
+  }
+
+  &__percent {
+    opacity: 0.5;
+  }
+}
+
+// .data {
+//   display: flex;
+//   justify-content: center;
+
+//   &__wrapper {
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//     background-color: rgba(0, 0, 0, 0.8);
+//     border: 1px solid rgb(55 55 55);
+//     padding: 0 2rem;
+//   }
+
+//   &__item {
+//     display: flex;
+//     align-items: center;
+//     gap: 1rem;
+//   }
+
+//   &__sub {
+//     opacity: 0.5;
+//     border-left: 1px solid white;
+//     padding: 0 1rem;
+//   }
+// }
+
+.explain {
+  &__title {
+    font-family: recoleta;
+    font-size: 5rem;
+    font-weight: lighter;
+    text-align: center;
+    margin: 0;
+    margin-bottom: 2rem;
+    // border-bottom: 1px solid $white;
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgb(55 55 55);
+    padding: 0 2rem;
+  }
+
+  &__loader {
+    padding: 2rem 0;
+  }
+
+  &__wait {
+    opacity: 0.5;
+  }
+
+  &__response {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  &__code {
+    font-family: lalo;
+  }
+
+  &__reroll {
+    padding: 1rem;
+    margin: 1rem 0;
+    border: none;
+    font-family: lalo;
+    font-size: 1.6rem;
+    border: 1px solid rgb(55 55 55);
+    background: transparent;
+    color: $primary-text;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      background-color: $off-white-2;
+      color: $black;
+      scale: 0.95;
+      cursor: pointer;
+    }
   }
 }
