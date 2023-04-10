@@ -1,0 +1,64 @@
+@use "../../styles/partials/variables" as *;
+
+.about {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  &__title {
+    font-size: 2rem;
+    font-weight: lighter;
+    color: $primary-text;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid $white;
+  }
+
+  &__text {
+    font-size: 1.6rem;
+    font-weight: lighter;
+    color: $primary-text;
+    margin-bottom: 2rem;
+  }
+}
+
+.more {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 30vh;
+  border: 1px solid rgb(55 55 55);
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(0.4rem);
+  -webkit-backdrop-filter: blur(0.4rem);
+
+  &__title {
+    padding: 0.5rem 1rem;
+    margin: 1.5rem 0;
+    border-left: 1px solid $white;
+  }
+
+  &__loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 2rem;
+  }
+
+  &__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__item {
+    display: flex;
+  }
+
+  &__sub {
+    opacity: 0.5;
+    border-left: 1px solid $white;
+    padding: 0 1rem;
+  }
+}

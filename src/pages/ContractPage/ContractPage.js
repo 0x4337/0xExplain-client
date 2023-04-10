@@ -2,26 +2,11 @@ import axios from "axios";
 import "./ContractPage.scss";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+
 import BeatLoader from "react-spinners/BeatLoader";
 import ContractAccord from "../../components/ContractAccord/ContractAccord";
-import cube from "../../assets/images/cube.mp4";
-import gradient from "../../assets/images/gradientblur.jpg";
-import spray from "../../assets/images/spray.mp4";
-import waves from "../../assets/images/waves.mp4";
 import gem from "../../assets/images/gem.mp4";
-import core from "../../assets/images/core.mp4";
 import gem2 from "../../assets/images/gem2.mp4";
-import diamond from "../../assets/images/diamond.mp4";
-import glasswaves from "../../assets/images/glasswaves.mp4";
-
-import {
-  duotoneSea,
-  oneDark,
-  twilight,
-  atomDark,
-  moonscript,
-} from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const ContractPage = ({ ETHERSCAN_API_KEY }) => {
   const { contractAddress } = useParams();
@@ -32,17 +17,21 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
   // const [explanation, setExplanation] = useState("");
 
   /**
-   * Get the explanation of the contract from the backend by sending the source code of the contract
+   * Get the explanation of the contract from the backend by sending
+   * the source code of the contract
    * to the api/explain endpoint of the backend.
    * @param {string} sourceCode the source code of the contract
    * @returns the explanation of the contract
    */
   const getExplanation = async (sourceCode) => {
+    const promptIndex = Math.floor(Math.random() * 5);
+
     try {
       const response = await axios.post(
         "http://localhost:8080/api/openai/generate",
         {
           sourceCode,
+          promptIndex,
         }
       );
       console.log(response.data.explanation);
@@ -64,12 +53,6 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
     const { data } = await axios.get(
       `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${contractAddress}&apikey=${ETHERSCAN_API_KEY}`
     );
-
-    // LOGGING
-    // console.log("DATA BELOW");
-    // console.log(data);
-    // console.log("SOURCE CODE BELOW");
-    // console.log(data.result[0].SourceCode);
 
     const newContractInfo = {
       contractName: data.result[0].ContractName,
@@ -124,26 +107,11 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
         // console.log(content.length);
         // console.log(formattedResponse.length);
         // console.log(gptContractString.length);
-
-        // TODO:
-        // EXPLANATION TESTING:
-        // const explanation = await getExplanation(content);
-        // setExplanation(explanation);
       }
     }
 
-    // console.log("RESPONSE BELOW");
-    // console.log(response);
     setAllContracts(response.sources);
   };
-
-  // const createContractAccord = () => {
-  //   if (allContracts) {
-  //     return allContracts.map((contract) => {
-  //       return <ContractAccord contract={contract} />;
-  //     });
-  //   }
-  // };
 
   const createContractAccord = () => {
     if (allContracts) {
@@ -164,9 +132,6 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
     }
   };
 
-  // console.log("ALL CONTRACTS BELOW");
-  // console.log(allContracts);
-
   useEffect(() => {
     try {
       getSourceCode();
@@ -174,11 +139,6 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
       console.log(error);
     }
   }, []);
-
-  // TODO:
-  // 1. Loop through the response object and pass down each contract to the contract accordion component
-  // 2. For each accordion, there will be a button to call the gpt-4 model to explain the contract
-  // 3. The gpt-4 model will return a string of text that will be displayed in the accordion
 
   return (
     <>
@@ -279,28 +239,8 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
             )}
           </div>
         </div>
-        {/* 
-      <ContractAccord />
-      <ContractAccord />
-      <ContractAccord /> */}
 
         {createContractAccord()}
-
-        {/* <div className="gpt">
-          <h2 className="gpt__title">GPT-4 Overview</h2>
-          <div className="gpt__wrapper">
-            <p className="gpt__text">old explination location</p>
-          </div>
-        </div>
-
-        <SyntaxHighlighter
-          showLineNumbers
-          language="solidity"
-          wrapLongLines={true}
-          style={duotoneSea}
-        >
-          {contract}
-        </SyntaxHighlighter> */}
       </section>
     </>
   );

@@ -8,6 +8,7 @@
   margin: 0 4rem;
   gap: 3rem;
   position: relative;
+  margin-bottom: 2rem;
 
   &__graphic {
     position: absolute;
@@ -109,9 +110,6 @@
     opacity: 0.5;
     border-left: 1px solid $white;
     padding: 0 1rem;
-  }
-
-  &__text {
   }
 }
 

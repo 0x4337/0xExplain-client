@@ -1,28 +1,17 @@
 import "./TransactionPage.scss";
 import burst from "../../assets/images/burst.png";
-import burst2 from "../../assets/images/burst2.png";
-import burst3 from "../../assets/images/burst3.png";
-import galaxystar from "../../assets/images/galaxystar.mp4";
-import ethereumIcon from "../../assets/images/ethereum-icon.svg";
-import ethereumIcon2 from "../../assets/images/ethereum-icon-2.svg";
-import gem2 from "../../assets/images/gem2.mp4";
+
 import BounceLoader from "react-spinners/BounceLoader";
 import BeatLoader from "react-spinners/BeatLoader";
 import PuffLoader from "react-spinners/PuffLoader";
-import artifactWave from "../../assets/images/artifact-wave.jpeg";
-import successTick from "../../assets/images/success-tick.svg";
-// const InputDataDecoder = require("ethereum-input-data-decoder");
+
 import InputDataDecoder from "ethereum-input-data-decoder";
 import contractIcon from "../../assets/images/contract.svg";
-import sand from "../../assets/images/sand.gif";
-import worm from "../../assets/images/worm.gif";
-import quantball from "../../assets/images/quantball.jpg";
-import glasswaves from "../../assets/images/glasswaves.mp4";
 
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { badgeUnstyledClasses } from "@mui/base";
+
 import { formatUnits, parseUnits } from "ethers";
 
 const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
@@ -200,9 +189,6 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
         const txnInput = txnBasic.data;
         const decodedInput = decoder.decodeData(txnInput);
 
-        // FIXME:
-        // There are cases where the .inputs are not hex codes, but strings
-
         console.log("DECODED INPUT", decodedInput);
         const stringedDecodedInput = JSON.stringify(decodedInput);
 
@@ -211,10 +197,6 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
         console.log("STINGIFIED INPUT", stringedDecodedInput);
 
         const abiForGpt = data.result[0].ABI;
-
-        // FIXME:
-        // Need to get the main contract for the source code, not the whole thing
-        // Same logic as in contractPage for getting the main contract
 
         // =============================
 
@@ -242,8 +224,6 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
             mainContract = response.sources[contract].content;
           }
         }
-
-        // =============================
 
         const allData = `
         CONTRACT SOURCE CODE:
@@ -273,7 +253,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
             "http://localhost:8080/api/openai/generateInteraction",
             {
               allData,
-              promptIndex, // Send the prompt index
+              promptIndex,
             }
           );
 
@@ -309,22 +289,14 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
   return (
     <>
       <section className="txn">
-        {/* <video className="txn__graphic" loop muted>
-          <source src={gem2} type="video/mp4" />
-        </video> */}
-
         <img src={burst} alt="graphic" className="txn__burst" />
-        {/* <img src={burst2} alt="graphic" className="txn__burst2" /> */}
-        {/* <img src={sand} alt="graphic" className="txn__sand" /> */}
 
         <div className="txn__titles">
           <div className="txn__top">
-            {/* <img src={ethereumIcon} alt="ethereum icon" className="txn__icon" /> */}
-
             <div className="txn__icon"></div>
 
             <h1 className="txn__title">Transaction</h1>
-            {/* <img src={ethereumIcon} alt="ethereum icon" className="txn__icon" /> */}
+
             <div className="txn__icon"></div>
           </div>
 
@@ -344,7 +316,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
                   <PuffLoader className="status__icon" color="#fff" size={20} />
                 </>
               )}
-              {/* {!isLoading && <p className="status__text">{txnStatus}</p>} */}
+
               {!isLoading && txnStatus === "Pending" && (
                 <>
                   <p className="status__text">{txnStatus}</p>
@@ -362,10 +334,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
 
             <div className="status__item">
               <p className="status__sub">Method •</p>
-              {/* {txnBasic && decodedInput.method && (
-                <p className="input__text">{decodedInput.method}</p>
-              )} */}
-              {/* <p className="input__text">{decodedInput}</p> */}
+
               {!txnBasic && <BeatLoader color="#fff" size={5} />}
               {txnBasic && decodedInput && (
                 <p className="status__text">{decodedInput.method}</p>
@@ -450,35 +419,6 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
 
         <div className="gas">
           <div className="gas__wrapper">
-            {/* <div className="gas__sent">
-              <h3 className="gas__title">Gas Sent</h3>
-              <div className="gas__item">
-                <p className="gas__sub">Max Gas Fee •</p>
-                {txnBasic && basicGas.maxFeePerGasInGwei && (
-                  <p className="gas__text">
-                    {basicGas.maxFeePerGasInGwei} Gwei
-                  </p>
-                )}
-                {!txnBasic && <BeatLoader color="#fff" size={5} />}
-              </div>
-              <div className="gas__item">
-                <p className="gas__sub">Max Priority Fee •</p>
-                {txnBasic && basicGas.maxPriorityFeePerGasInGwei && (
-                  <p className="gas__text">
-                    {basicGas.maxPriorityFeePerGasInGwei} Gwei
-                  </p>
-                )}
-                {!txnBasic && <BeatLoader color="#fff" size={5} />}
-              </div>
-              <div className="gas__item">
-                <p className="gas__sub">Gas Limit •</p>
-                {txnBasic && (
-                  <p className="gas__text">{basicGas.gasLimitInGwei}</p>
-                )}
-                {!txnBasic && <BeatLoader color="#fff" size={5} />}
-              </div>
-            </div> */}
-
             <div className="gas__sent">
               <div className="gas__legacy">
                 <h3 className="gas__title">Gas Sent</h3>
@@ -573,21 +513,6 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
             <h2 className="explain__title">Explain</h2>
 
             <div className="explain__wrapper">
-              {/* {txnExplination && (
-                <>
-                  <pre className="explain__response">
-                    <code
-                      className="explain__code"
-                      dangerouslySetInnerHTML={{ __html: txnExplination }}
-                    />
-                  </pre>
-
-                  <button onClick={handleReroll} className="explain__reroll">
-                    Reroll
-                  </button>
-                </>
-              )} */}
-
               {isRerolling ? (
                 <BeatLoader
                   className="explain__loader"
@@ -615,14 +540,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
                   )}
                 </>
               )}
-              {/* 
-              {!txnExplination && (
-                <BeatLoader
-                  className="explain__loader"
-                  color="#fff"
-                  size={7.5}
-                />
-              )} */}
+
               {!txnExplination && !txnFull && (
                 <p className="explain__wait">
                   Waiting for transaction to settle before attempting to

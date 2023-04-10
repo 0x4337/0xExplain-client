@@ -43,7 +43,7 @@ const App = () => {
         />
       </Routes>
       {/* </div> */}
-      <Footer />
+      {/* <Footer /> */}
     </BrowserRouter>
   );
 };

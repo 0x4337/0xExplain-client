@@ -40,4 +40,13 @@
       cursor: pointer;
     }
   }
+
+  &__response {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  &__code {
+    font-family: lalo;
+  }
 }

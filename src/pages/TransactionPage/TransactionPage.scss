@@ -8,6 +8,7 @@
   margin: 0 4rem;
   gap: 3rem;
   position: relative;
+  margin-bottom: 2rem;
 
   &__graphic {
     position: absolute;
@@ -98,7 +99,6 @@
   &__wrapper {
     display: flex;
     align-items: center;
-    // background-color: rgba(0, 0, 0, 0.9);
     border: 1px solid rgb(55 55 55);
     background: rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(0.4rem);
@@ -121,9 +121,6 @@
 
   &__icon {
     margin-left: 1rem;
-  }
-
-  &__icon--tick {
   }
 }
 
@@ -180,9 +177,6 @@
     flex-direction: column;
   }
 
-  &__to {
-  }
-
   &__contract {
     display: flex;
     align-items: center;
@@ -207,9 +201,6 @@
 
   &__text--contract {
     text-decoration: underline;
-  }
-
-  &__from {
   }
 }
 

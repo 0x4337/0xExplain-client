@@ -4,9 +4,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid $off-white-2;
+  padding: 1rem 0;
   margin: 2rem 4rem;
   color: $primary-text;
   font-size: 1.3rem;
   font-weight: bold;
+  border: 1px solid rgb(55 55 55);
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(0.4rem);
+  -webkit-backdrop-filter: blur(0.4rem);
 }

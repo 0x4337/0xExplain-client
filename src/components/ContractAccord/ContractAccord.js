@@ -22,86 +22,32 @@ import {
 } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const ContractAccord = ({ name, number, total, contract, getExplanation }) => {
-  //   const [isClicked, setIsClicked] = useState(false);
   const [explanation, setExplanation] = useState("");
-  //   console.log(contract);
-
-  //   const handleGptClick = async () => {
-  //     const explanation = await getExplanation(contract);
-  //     setExplanation(explanation);
-  //   };
-
-  //   const handleGptClick = async () => {
-  //     setExplanation(
-  //       <BeatLoader
-  //         className="gpt__loader"
-  //         color={"#fff"}
-  //         loading={true}
-  //         size={10}
-  //       />
-  //     );
-  //     setTimeout(() => {
-  //       setExplanation("Almost there...");
-  //       setTimeout(() => {
-  //         setExplanation("Still thinking...");
-  //         setTimeout(() => {
-  //           setExplanation("Sorry, GPT-4 is slow...");
-  //         }, 10000);
-  //       }, 10000);
-  //     }, 10000);
-  //     const gptExplanation = await getExplanation(contract);
-
-  //     setExplanation(gptExplanation);
-  //   };
-
-  //   const handleGptClick = async () => {
-  //     setExplanation(
-  //       <BeatLoader
-  //         className="gpt__loader"
-  //         color={"#fff"}
-  //         loading={true}
-  //         size={10}
-  //       />
-  //     );
-  //     setTimeout(() => {
-  //       setExplanation("Almost there...");
-  //       setTimeout(() => {
-  //         setExplanation("Still thinking...");
-  //         setTimeout(() => {
-  //           setExplanation("Sorry, GPT-4 is slow...");
-  //         }, 10000);
-  //       }, 10000);
-  //     }, 10000);
-  //     const gptExplanation = await getExplanation(contract);
-  //     setTimeout(() => {
-  //       setExplanation(gptExplanation);
-  //     }, 2000);
-  //   };
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const updateLoadingState = async (isResponseReceived) => {
     if (isResponseReceived.current) return;
 
-    await sleep(10000);
+    await sleep(15000);
     if (isResponseReceived.current) return;
     setExplanation("Still thinking...");
 
-    await sleep(10000);
+    await sleep(20000);
     if (isResponseReceived.current) return;
     setExplanation("Almost got it...");
 
-    await sleep(15000);
+    await sleep(25000);
     if (isResponseReceived.current) return;
     setExplanation("We actually use GPT-4 unlike some, its just slow...");
 
-    await sleep(20000);
-    if (isResponseReceived.current) return;
-    setExplanation("It'll be worth the wait...");
-
     await sleep(30000);
     if (isResponseReceived.current) return;
-    setExplanation("We promise...");
+    setExplanation("Really, really slow...");
+
+    await sleep(35000);
+    if (isResponseReceived.current) return;
+    setExplanation("Still working on it...");
 
     await sleep(60000);
     if (isResponseReceived.current) return;
@@ -110,12 +56,13 @@ const ContractAccord = ({ name, number, total, contract, getExplanation }) => {
 
   const handleGptClick = async () => {
     setExplanation(
-      <BeatLoader
-        className="gpt__loader"
-        color={"#fff"}
-        loading={true}
-        size={10}
-      />
+      // <BeatLoader
+      //   className="gpt__loader"
+      //   color={"#fff"}
+      //   loading={true}
+      //   size={10}
+      // />
+      "Thinking..."
     );
 
     const isResponseReceived = { current: false };
@@ -134,9 +81,11 @@ const ContractAccord = ({ name, number, total, contract, getExplanation }) => {
     <section className="accord">
       <Accordion
         sx={{
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
           color: "white",
-          border: "1px solid grey",
+          border: "1px solid rgb(55 55 55)",
+          background: "rgba(0, 0, 0, 0.25)",
+          "backdrop-filter": "blur(0.75rem)",
+          "-webkit-backdrop-filter": "blur(0.75rem)",
         }}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -156,7 +105,13 @@ const ContractAccord = ({ name, number, total, contract, getExplanation }) => {
             </button>
 
             <Typography fontFamily="lalo" fontSize="1.6rem">
-              {explanation}
+              {/* {explanation} */}
+              <pre className="gpt__response">
+                <code
+                  className="gpt__code"
+                  dangerouslySetInnerHTML={{ __html: explanation }}
+                />
+              </pre>
             </Typography>
           </div>
 

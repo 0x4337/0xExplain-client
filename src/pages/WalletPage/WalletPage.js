@@ -297,6 +297,15 @@ const WalletPage = ({ ETHERSCAN_API_KEY }) => {
           {renderNftCollections()}
         </div>
       </div>
+
+      <div className="more">
+        <div className="more__wrapper">
+          <div className="more__item">
+            <p className="more__sub">More Data •</p>
+            <p className="more__text">Coming Soon...</p>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };
