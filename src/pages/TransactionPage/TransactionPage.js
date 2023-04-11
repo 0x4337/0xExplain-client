@@ -33,7 +33,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
     console.log("fetching transaction data");
     try {
       const basicResponse = await axios.get(
-        `http://localhost:8080/api/alchemy/getTxnBasic/${transactionHash}`
+        `${process.env.REACT_APP_BACKEND_URL}/api/alchemy/getTxnBasic/${transactionHash}`
       );
 
       setTxnBasic(basicResponse.data);
@@ -82,7 +82,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
 
       if (basicResponse.data) {
         const fullResponse = await axios.get(
-          `http://localhost:8080/api/alchemy/getTxnFull/${transactionHash}`
+          `${process.env.REACT_APP_BACKEND_URL}/api/alchemy/getTxnFull/${transactionHash}`
         );
 
         setTxnFull(fullResponse.data);
@@ -250,7 +250,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
 
         try {
           const { data } = await axios.post(
-            "http://localhost:8080/api/openai/generateInteraction",
+            "${process.env.REACT_APP_BACKEND_URL}/api/openai/generateInteraction",
             {
               allData,
               promptIndex,

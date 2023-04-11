@@ -28,7 +28,7 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/openai/generate",
+        `${process.env.REACT_APP_BACKEND_URL}/api/openai/generate`,
         {
           sourceCode,
           promptIndex,

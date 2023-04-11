@@ -21,7 +21,7 @@ const WalletPage = ({ ETHERSCAN_API_KEY }) => {
   const getBalance = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8080/api/alchemy/getBalance/${walletAddress}`
+        `${process.env.REACT_APP_BACKEND_URL}/api/alchemy/getBalance/${walletAddress}`
       );
 
       setBalance(data);
@@ -33,7 +33,7 @@ const WalletPage = ({ ETHERSCAN_API_KEY }) => {
   const getCreationDate = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8080/api/alchemy/getCreationDate/${walletAddress}`
+        `${process.env.REACT_APP_BACKEND_URL}/api/alchemy/getCreationDate/${walletAddress}`
       );
 
       setCreationDate(data);
@@ -45,7 +45,7 @@ const WalletPage = ({ ETHERSCAN_API_KEY }) => {
   const getTxnCount = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8080/api/alchemy/getTxnCount/${walletAddress}`
+        `${process.env.REACT_APP_BACKEND_URL}/api/alchemy/getTxnCount/${walletAddress}`
       );
 
       setTxnCount(data);
@@ -82,7 +82,7 @@ const WalletPage = ({ ETHERSCAN_API_KEY }) => {
   const getNftStats = async (contractAddress) => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8080/api/module/getNftStats/${contractAddress}`
+        `${process.env.REACT_APP_BACKEND_URL}/api/module/getNftStats/${contractAddress}`
       );
 
       return {
@@ -101,7 +101,7 @@ const WalletPage = ({ ETHERSCAN_API_KEY }) => {
   const getNftCollections = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8080/api/alchemy/getNFTs/${walletAddress}`
+        `${process.env.REACT_APP_BACKEND_URL}/api/alchemy/getNFTs/${walletAddress}`
       );
 
       const contractCounts = {};
