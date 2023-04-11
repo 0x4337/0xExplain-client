@@ -10,6 +10,10 @@ const AboutPage = () => {
         0xab5e33614b45e1209e0cda66d018693b6752d6f443c7aaa1b4f255fe2dc8681f
       </p>
       <p className="about__text">
+        Txn Hash (better):
+        0xb17a498c597debc240e138dd76a06668b5ef98206c119c3f092844affb3bca2c
+      </p>
+      <p className="about__text">
         Contract Address: 0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258
       </p>
       <p className="about__text">
