@@ -237,7 +237,7 @@ const WalletPage = ({ ETHERSCAN_API_KEY }) => {
       </div>
 
       <div className="data">
-        <h2 className="data__title">Contract Details</h2>
+        <h2 className="data__title">Wallet Details</h2>
 
         <div className="data__wrapper">
           {balance && (
