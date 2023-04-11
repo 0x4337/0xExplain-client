@@ -17,6 +17,9 @@ const AboutPage = () => {
         Contract Address: 0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258
       </p>
       <p className="about__text">
+        Contract Address (better): 0xE7d3982E214F9DFD53d23a7f72851a7044072250
+      </p>
+      <p className="about__text">
         Wallet Address (Small): 0x6BC94f9111B7A9ad6A3fE688999333e9c3af77B4
       </p>
       <p className="about__text">
