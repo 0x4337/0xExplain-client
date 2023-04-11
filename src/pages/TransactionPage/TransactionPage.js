@@ -250,7 +250,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
 
         try {
           const { data } = await axios.post(
-            "${process.env.REACT_APP_BACKEND_URL}/api/openai/generateInteraction",
+            `${process.env.REACT_APP_BACKEND_URL}/api/openai/generateInteraction`,
             {
               allData,
               promptIndex,
