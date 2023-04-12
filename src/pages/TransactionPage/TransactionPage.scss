@@ -101,8 +101,8 @@
     align-items: center;
     border: 1px solid rgb(55 55 55);
     background: rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(0.4rem);
-    -webkit-backdrop-filter: blur(0.4rem);
+    backdrop-filter: blur(0.75rem);
+    -webkit-backdrop-filter: blur(0.75rem);
     padding: 0 2rem;
     gap: 4rem;
   }
@@ -143,8 +143,8 @@
   align-items: center;
   border: 1px solid rgb(55 55 55);
   background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(0.4rem);
-  -webkit-backdrop-filter: blur(0.4rem);
+  backdrop-filter: blur(0.75rem);
+  -webkit-backdrop-filter: blur(0.75rem);
   padding: 0 2rem;
 
   &__details {
@@ -223,8 +223,8 @@
   &__sent {
     border: 1px solid rgb(55 55 55);
     background: rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(0.4rem);
-    -webkit-backdrop-filter: blur(0.4rem);
+    backdrop-filter: blur(0.75rem);
+    -webkit-backdrop-filter: blur(0.75rem);
     padding: 0 2rem;
     width: 50%;
   }
@@ -232,8 +232,8 @@
   &__used {
     border: 1px solid rgb(55 55 55);
     background: rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(0.4rem);
-    -webkit-backdrop-filter: blur(0.4rem);
+    backdrop-filter: blur(0.75rem);
+    -webkit-backdrop-filter: blur(0.75rem);
     padding: 0 2rem;
     width: 50%;
   }
@@ -305,8 +305,8 @@
     align-items: center;
     border: 1px solid rgb(55 55 55);
     background: rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(0.4rem);
-    -webkit-backdrop-filter: blur(0.4rem);
+    backdrop-filter: blur(1rem);
+    -webkit-backdrop-filter: blur(1rem);
     padding: 0 2rem;
   }
 

@@ -24,8 +24,8 @@
     transition: all 0.2s ease-in-out;
     border: 1px solid rgb(55 55 55);
     background: rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(0.4rem);
-    -webkit-backdrop-filter: blur(0.4rem);
+    backdrop-filter: blur(0.75rem);
+    -webkit-backdrop-filter: blur(0.75rem);
 
     &:hover {
       background-color: $off-white-2;
