@@ -23,8 +23,10 @@ const ContractPage = ({ ETHERSCAN_API_KEY }) => {
    * @param {string} sourceCode the source code of the contract
    * @returns the explanation of the contract
    */
-  const getExplanation = async (sourceCode) => {
-    const promptIndex = Math.floor(Math.random() * 5);
+  const getExplanation = async (sourceCode, promptIndex = null) => {
+    if (!promptIndex) {
+      promptIndex = Math.floor(Math.random() * 5);
+    }
 
     try {
       const response = await axios.post(

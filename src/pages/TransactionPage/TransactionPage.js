@@ -14,6 +14,24 @@ import axios from "axios";
 
 import { formatUnits, parseUnits } from "ethers";
 
+// TODO:
+// x. If there is no input data, then set it to checking instead of transfer.
+// Currently it is set to transfer because the input data is not available. Meaning
+// if the input data is still fetching, it shows transfer... which is wrong.
+
+// x. There are cases where the gpt prompt is too long, either the source code alone is
+// too long, or the combination of data makes it too long. Need to handle
+// this case. I either need to check the length before sending it to the backend, or I
+// need to handle situations where gpt fails.
+
+// 3. There seems to be an issue where on first load, the generateInteraction endpoint is not called
+// Needs further investigation.
+
+// 4. Consider adding the ability to click for a simpler explanation.
+// Something like a "click to explain (Advanced)" and a "click to explain (Simple)".
+
+// x. Fix Analyse spelling on re-analysis button.
+
 const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
   const { transactionHash } = useParams();
   const [txnBasic, setTxnBasic] = useState(null);
@@ -28,6 +46,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
   const [isLegacyTransaction, setIsLegacyTransaction] = useState(false);
   const [value, setValue] = useState(0);
   const [isRerolling, setIsRerolling] = useState(false);
+  const [exceedsLimit, setExceedsLimit] = useState(false);
 
   const fetchTransactionData = async () => {
     console.log("fetching transaction data");
@@ -246,6 +265,10 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
 
         `;
 
+        if (allData.length > 50000) {
+          setExceedsLimit(true);
+        }
+
         console.log("ALL DATA", allData);
 
         try {
@@ -282,8 +305,12 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
   }, [txnFull]);
 
   const handleReroll = () => {
-    const promptIndex = Math.floor(Math.random() * 8);
+    const promptIndex = Math.floor(Math.random() * 7);
     getContract(promptIndex);
+  };
+
+  const handleSimple = () => {
+    getContract(8);
   };
 
   return (
@@ -311,10 +338,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
             <div className="status__item">
               <p className="status__sub">Status •</p>
               {isLoading && (
-                <>
-                  <p className="status__text">Checking</p>
-                  <PuffLoader className="status__icon" color="#fff" size={20} />
-                </>
+                <PuffLoader className="status__icon" color="#fff" size={20} />
               )}
 
               {!isLoading && txnStatus === "Pending" && (
@@ -339,7 +363,11 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
               {txnBasic && decodedInput && (
                 <p className="status__text">{decodedInput.method}</p>
               )}
-              {!decodedInput && <p className="status__text">Transfer</p>}
+              {decodedInput === "0x" && (
+                <p className="status__text">Transfer</p>
+              )}
+
+              {!decodedInput && <p className="status__text"></p>}
             </div>
 
             <div className="status__item">
@@ -354,6 +382,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
           <div className="basic__details">
             <div className="basic__item">
               <p className="basic__sub">Block Number •</p>
+              {!txnBasic && <BeatLoader color="#fff" size={5} />}
               {txnBasic && !txnBasic.blockNumber ? (
                 <BeatLoader color="#fff" size={5} />
               ) : (
@@ -362,12 +391,16 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
             </div>
             <div className="basic__item">
               <p className="basic__sub">Current Confirmations •</p>
+              {!txnBasic && <BeatLoader color="#fff" size={5} />}
+
               {txnBasic && (
                 <p className="basic__text">{txnBasic.confirmations}</p>
               )}
             </div>
             <div className="basic__item">
               <p className="basic__sub">Transaction Index •</p>
+              {!txnBasic && <BeatLoader color="#fff" size={5} />}
+
               {txnBasic && !txnBasic.transactionIndex ? (
                 <BeatLoader color="#fff" size={5} />
               ) : (
@@ -432,6 +465,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
                 <>
                   <div className="gas__item">
                     <p className="gas__sub">Max Gas Fee •</p>
+
                     {txnBasic && basicGas.maxFeePerGasInGwei && (
                       <p className="gas__text">
                         {basicGas.maxFeePerGasInGwei} Gwei
@@ -513,7 +547,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
             <h2 className="explain__title">Explain</h2>
 
             <div className="explain__wrapper">
-              {isRerolling ? (
+              {isRerolling && !exceedsLimit ? (
                 <BeatLoader
                   className="explain__loader"
                   color="#fff"
@@ -534,7 +568,14 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
                         onClick={handleReroll}
                         className="explain__reroll"
                       >
-                        Click To Re-Analyise
+                        Click To Re-Analyse
+                      </button>
+
+                      <button
+                        onClick={handleSimple}
+                        className="explain__reroll"
+                      >
+                        Click To Simplify
                       </button>
                     </>
                   )}
@@ -545,6 +586,16 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
                 <p className="explain__wait">
                   Waiting for transaction to settle before attempting to
                   analyise.
+                </p>
+              )}
+
+              {exceedsLimit && (
+                <p className="explain__wait">
+                  The combination of decoded input data, the contracts ABI and
+                  its source code may be exceeding the character limitations of
+                  the GPT-4 testing API. Please try a differet data point. We
+                  will attempt to combat this in the future if the limit is not
+                  raised soon!
                 </p>
               )}
             </div>

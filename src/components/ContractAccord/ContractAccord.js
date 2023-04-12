@@ -65,9 +65,37 @@ const ContractAccord = ({ name, number, total, contract, getExplanation }) => {
       "Thinking..."
     );
 
+    // FIXME:
+    // Added ability to chose a (basic) explination button.
+    // Its currently set to the normal one so add a new button that has a paramater of contract, 5.
+    // 5 is the prompt index of the basic prompt.
+
     const isResponseReceived = { current: false };
 
     const gptExplanationPromise = getExplanation(contract);
+    const loadingStatePromise = updateLoadingState(isResponseReceived);
+
+    const gptExplanation = await gptExplanationPromise;
+    isResponseReceived.current = true;
+    setExplanation(gptExplanation);
+
+    await loadingStatePromise;
+  };
+
+  const handleGptSimpleClick = async () => {
+    setExplanation(
+      // <BeatLoader
+      //   className="gpt__loader"
+      //   color={"#fff"}
+      //   loading={true}
+      //   size={10}
+      // />
+      "Thinking..."
+    );
+
+    const isResponseReceived = { current: false };
+
+    const gptExplanationPromise = getExplanation(contract, 5);
     const loadingStatePromise = updateLoadingState(isResponseReceived);
 
     const gptExplanation = await gptExplanationPromise;
@@ -101,7 +129,10 @@ const ContractAccord = ({ name, number, total, contract, getExplanation }) => {
         <AccordionDetails>
           <div className="gpt">
             <button onClick={handleGptClick} className="gpt__button">
-              Click To Explain
+              Advanced 0xExplain
+            </button>
+            <button onClick={handleGptSimpleClick} className="gpt__button">
+              Simple 0xExplain
             </button>
 
             <Typography fontFamily="lalo" fontSize="1.6rem">
