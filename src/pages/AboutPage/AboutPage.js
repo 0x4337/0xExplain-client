@@ -154,9 +154,22 @@ const AboutPage = () => {
               </p>
             </div>
             <div className="test__item">
+              <p className="test__sub">Txn Hash 2 •</p>
+              <p className="test__text">
+                0x3a28f456e4fa3a5bd6ca37d61a41f930dee838ce68fbfe2a11154a22f71ff8a2
+              </p>
+            </div>
+
+            <div className="test__item">
               <p className="test__sub">Contract Address •</p>
               <p className="test__text">
                 0xE7d3982E214F9DFD53d23a7f72851a7044072250
+              </p>
+            </div>
+            <div className="test__item">
+              <p className="test__sub">Contract Address 2 •</p>
+              <p className="test__text">
+                0x60E4d786628Fea6478F785A6d7e704777c86a7c6
               </p>
             </div>
             <div className="test__item">
