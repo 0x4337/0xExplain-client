@@ -56,3 +56,4 @@ More work needs doing to handle the shire amount of edge cases, especially for t
 
 
 - https://0xexplain.com
+- Super Mega Transaction Algo: https://lucid.app/lucidchart/fee7cbf7-1ffb-4986-9570-a52aca94dd79/edit?viewport_loc=1168%2C1027%2C2083%2C1037%2C0_0&invitationId=inv_1b4fc3f8-dcf7-46b2-850e-ec95e34bdf97
