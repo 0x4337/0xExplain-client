@@ -48,3 +48,11 @@ To analyze a wallet's history, input the wallet address into the 0xExplain tool.
 
 0xExplain is a powerful and versatile tool for anyone looking to dive deeper into the Ethereum ecosystem. With its intuitive interface and advanced AI-driven analysis, it simplifies complex transactions, smart contracts, and wallet history, making it easier for users to understand and navigate the world of Ethereum. Give 0xExplain a try and discover its potential for yourself!
 
+#### Disclaimers
+GPT-4 Is slow... really slow. This is likely to change but be prepared to wait up to 3 (ish) minutes for a response. 
+The GPT-3.5-TURBO model is sometimes activated to save on expensive GPT-4 tokens, I'll add a toggle feature soon.
+Test prompts are also sometimes activated.
+More work needs doing to handle the shire amount of edge cases, especially for transactions. 
+
+
+- https://0xexplain.com
