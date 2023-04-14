@@ -1,8 +1,22 @@
 # 0xExplain
+## _Discover, Explore and Explain Ethereum Data._
 
-0xExplain is a powerful tool designed to simplify the analysis and understanding of Ethereum transactions, smart contracts, wallets and more data points. It leverages the GPT-4 AI model to provide detailed, human-like explanations of complex data. With its intuitive interface and easy-to-use features, 0xExplain makes it easier for developers, analysts, and enthusiasts to grasp the inner workings of the Ethereum ecosystem.
+0xExplain is a powerful tool designed to simplify the analysis and understanding of Ethereum transactions, smart contracts, wallets and more data points. It leverages the GPT-4 AI model to provide detailed, human-like explanations of complex data.
+
+- Input Ethereum data
+- Get GPT-4 Powered Explinations
+- ✨ Magic ✨
 
 ## Features
+
+- Analyze Ethereum transactions by decoding input data and identifying invoked functions
+- Analyze smart contracts and generate detailed reports about their functions, purposes, and potential security risks
+- Wallet analysis (still in development) provides information such as wallet balance, creation date, total gas spent, and held tokens
+- AI-driven analysis using GPT-4 for human-like explanations
+
+## How It Works
+
+0xExplain is built on top of the GPT-4 AI model, which is capable of providing detailed, human-like explanations of complex data and Solidity code. The tool communicates with the Ethereum network using various APIs to fetch data points. It then uses GPT-4 to analyze and explain the fetched data, providing users with easily understandable insights into the Ethereum ecosystem.
 
 ### Transaction Analysis
 
@@ -15,10 +29,6 @@
 ### Wallet Analysis
 
 This page is still in development and will be updated in the future. However, the page will currently provide important information such as wallet balance, creation date, total gas spent, ERC-721 / ERC-1155 tokens held etc...
-
-## How It Works
-
-0xExplain is built on top of the GPT-4 AI model, which is capable of providing detailed, human-like explanations of complex data and solidity code. The tool communicates with the Ethereum network using various APIs to fetch data points. It then uses GPT-4 to analyze and explain the fetched data, providing users with easily understandable insights into the Ethereum ecosystem.
 
 ## Usage
 
@@ -37,3 +47,4 @@ To analyze a wallet's history, input the wallet address into the 0xExplain tool.
 ## Conclusion
 
 0xExplain is a powerful and versatile tool for anyone looking to dive deeper into the Ethereum ecosystem. With its intuitive interface and advanced AI-driven analysis, it simplifies complex transactions, smart contracts, and wallet history, making it easier for users to understand and navigate the world of Ethereum. Give 0xExplain a try and discover its potential for yourself!
+
