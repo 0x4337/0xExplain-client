@@ -8,6 +8,25 @@
   gap: 2rem;
   margin-bottom: 2rem;
 
+  &__ball {
+    position: fixed;
+    z-index: -1;
+    top: 12rem;
+    width: 100vw;
+    height: 100vh;
+    right: -46rem;
+    filter: grayscale(1) blur(6rem);
+    rotate: 313deg;
+  }
+
+  &__cube {
+    position: fixed;
+    z-index: -1;
+    width: 90rem;
+    height: 90rem;
+    right: 12rem;
+  }
+
   &__titles {
     display: flex;
     flex-direction: column;
@@ -49,6 +68,10 @@
     justify-content: space-between;
     flex-wrap: wrap;
     border-top: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 0 2rem;
+    border: 1px solid rgb(55 55 55);
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(1rem);
   }
 
   &__subtitle {

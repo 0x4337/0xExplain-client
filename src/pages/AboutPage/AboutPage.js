@@ -1,8 +1,16 @@
 import "./AboutPage.scss";
+import liquid from "../../assets/images/liquid.mp4";
+import cube from "../../assets/images/cube.mp4";
 
 const AboutPage = () => {
   return (
     <section className="about">
+      {/* <video className="about__ball" loop autoPlay muted>
+        <source src={liquid} type="video/mp4" />
+      </video> */}
+      <video className="about__cube" loop autoPlay muted>
+        <source src={cube} type="video/mp4" />
+      </video>
       <div className="about__titles">
         <div className="about__top">
           <div className="about__circle"></div>
@@ -154,7 +162,7 @@ const AboutPage = () => {
               </p>
             </div>
             <div className="test__item">
-              <p className="test__sub">Txn Hash 2 •</p>
+              <p className="test__sub">Txn Hash 2 (Mutants Mint) •</p>
               <p className="test__text">
                 0x3a28f456e4fa3a5bd6ca37d61a41f930dee838ce68fbfe2a11154a22f71ff8a2
               </p>
@@ -167,7 +175,7 @@ const AboutPage = () => {
               </p>
             </div>
             <div className="test__item">
-              <p className="test__sub">Contract Address 2 •</p>
+              <p className="test__sub">Contract Address 2 (Mutants) •</p>
               <p className="test__text">
                 0x60E4d786628Fea6478F785A6d7e704777c86a7c6
               </p>
@@ -179,7 +187,13 @@ const AboutPage = () => {
               </p>
             </div>
             <div className="test__item">
-              <p className="test__sub">Wallet Address Loaded •</p>
+              <p className="test__sub">Wallet Address Mid •</p>
+              <p className="test__text">
+                0xF9fE45ccEd031CE806199B0A032df42f15E095B6
+              </p>
+            </div>
+            <div className="test__item">
+              <p className="test__sub">Wallet Address Large •</p>
               <p className="test__text">
                 0x26fCbD3AFEbbE28D0A8684F790C48368D21665b5
               </p>

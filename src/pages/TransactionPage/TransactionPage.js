@@ -316,7 +316,7 @@ const TransactionPage = ({ ETHERSCAN_API_KEY }) => {
   return (
     <>
       <section className="txn">
-        <img src={burst} alt="graphic" className="txn__burst" />
+        <img src={burst} alt="burst graphic" className="txn__burst" />
 
         <div className="txn__titles">
           <div className="txn__top">
