@@ -1,5 +1,4 @@
 import "./AboutPage.scss";
-import liquid from "../../assets/images/liquid.mp4";
 import cube from "../../assets/images/cube.mp4";
 
 const AboutPage = () => {
@@ -19,10 +18,36 @@ const AboutPage = () => {
         </div>
 
         <div className="about__subtitles">
-          <h2 className="about__subtitle">By</h2>
-          <h2 className="about__subtitle">Adam Gedge</h2>
+          <h2 className="about__subtitle">0x4337</h2>
+          <a
+            href="https://github.com/0x4337/0xExplain-client"
+            target="_blank"
+            rel="noreferrer"
+            className="about__link"
+          >
+            <h2 className="about__subtitle about__subtitle--github">Github</h2>
+          </a>
         </div>
       </div>
+
+      <div className="about__desc">
+        <p className="about__text">
+          0xExplain is a powerful tool designed to simplify the analysis and
+          understanding of Ethereum transactions, smart contracts, wallets and
+          more data points. It leverages the GPT-4 AI model to provide detailed,
+          human-like explanations of complex data.
+        </p>
+
+        <p className="about__text">
+          0xExplain is built on top of the GPT-4 AI model, which is capable of
+          providing detailed, human-like explanations of complex data and
+          Solidity code. The tool communicates with the Ethereum network using
+          various APIs to fetch data points. It then uses GPT-4 to analyze and
+          explain the fetched data, providing users with easily understandable
+          insights into the Ethereum ecosystem.
+        </p>
+      </div>
+
       <div className="about__info">
         <h2 className="about__title">Tech Used</h2>
 
