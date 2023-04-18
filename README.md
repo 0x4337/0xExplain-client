@@ -5,8 +5,7 @@
 0xExplain is a powerful tool designed to simplify the analysis and understanding of Ethereum transactions, smart contracts, wallets and more data points. It leverages the GPT-4 AI model to provide detailed, human-like explanations of complex data.
 
 - Input Ethereum data
-- Get GPT-4 Powered Explinations
-- ✨ Magic ✨
+- Get ✨ GPT-4 ✨ Powered Explinations in a variety of formats
 
 ## Features
 
