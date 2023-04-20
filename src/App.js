@@ -1,5 +1,6 @@
 import "./App.scss";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -19,6 +20,7 @@ const App = () => {
     <BrowserRouter>
       <Cursor />
       {/* <div className="border"> */}
+      <Analytics />
       <Header />
       <Routes>
         <Route
