@@ -10,6 +10,7 @@ import AboutPage from "./pages/AboutPage/AboutPage";
 import TransactionPage from "./pages/TransactionPage/TransactionPage";
 import WalletPage from "./pages/WalletPage/WalletPage";
 import Cursor from "./components/Cursor/Cursor";
+import BreakpointWarn from "./components/BreakpointWarn/BreakpointWarn";
 
 const App = () => {
   const ETHERSCAN_API_KEY = process.env.REACT_APP_ETHERSCAN_API_KEY;
@@ -21,6 +22,7 @@ const App = () => {
       <Cursor />
       {/* <div className="border"> */}
       <Analytics />
+      <BreakpointWarn />
       <Header />
       <Routes>
         <Route

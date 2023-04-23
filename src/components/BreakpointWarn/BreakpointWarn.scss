@@ -1,0 +1,23 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+
+.warn {
+  z-index: 1000;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+  color: $primary-text;
+  backdrop-filter: blur(7.5rem);
+
+  @include tablet {
+    display: none;
+  }
+
+  &__title {
+    margin: 0 5rem;
+    position: fixed;
+    top: 50%;
+  }
+}
